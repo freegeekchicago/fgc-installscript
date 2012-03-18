@@ -1,0 +1,69 @@
+#!/bin/bash
+
+### Simple minded install script for 
+### FreeGeek Chicago by David Eads
+### Updates by Brent Bandegar and Dee Newcum
+### rev 007
+
+### Import DISTRIB_CODENAME and DISTRIB_RELEASE
+. /etc/lsb-release
+
+### Get the integer part of $DISTRIB_RELEASE. Bash/test can't handle floating-point numbers.
+DISTRIB_MAJOR_RELEASE=$(echo "scale=0; $DISTRIB_RELEASE/1" | bc)
+
+echo "################################"
+echo "#  FreeGeek Chicago Installer  #"
+echo "################################"
+
+# Default sources.list already has:
+# <releasename> main restricted universe multiverse
+# <releasename>-security main restricted universe multiverse
+# <releasename>-updates main restricted
+
+echo "#  Commenting out source repositories -- we don't mirror them locally."
+sed -i 's/deb-src/#deb-src/' /etc/apt/sources.list
+
+# Figure out if this part of the script has been run already
+# TODO: Look at the default sources.list
+grep "${DISTRIB_CODENAME}-updates universe" /etc/apt/sources.list
+if (($? == 1)); then
+        echo "Adding ${DISTRIB_CODENAME} updates line for universe and multiverse"
+        cp /etc/apt/sources.list /etc/apt/sources.list.backup        
+        echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRIB_CODENAME}-updates universe multiverse" >> /etc/apt/sources.list
+else
+        echo "#  Already added universe and multiverse ${DISTRIB_CODENAME}-updates line to sources,"
+fi
+
+# Enable Medibuntu Repos
+if [ -e /etc/apt/sources.list.d/medibuntu.list ]; then
+        echo "#  Already added Medibuntu repo, OK."
+else
+        wget -q http://packages.medibuntu.org/medibuntu-key.gpg -O- | apt-key add -
+        wget http://www.medibuntu.org/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/medibuntu.list
+fi
+
+# Enable Wine Repo
+if [ -e /etc/apt/sources.list.d/winehq.list ]; then
+        echo "#  Already added Wine repo, OK."
+else        
+        wget -q http://wine.budgetdedicated.com/apt/387EE263.gpg -O- | apt-key add -
+        wget http://wine.budgetdedicated.com/apt/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/winehq.list
+fi
+
+# Update everything
+apt-get -y update && apt-get -y upgrade
+
+# Install packages
+apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk msttcorefonts java-gcj-compat
+apt-get -y install xubuntu-restricted-extras ca-certificates vlc exaile mplayer libdvdcss2 w32codecs flashplugin-nonfree language-pack-es language-support-es language-pack-gnome-es sl 
+if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
+    apt-get -y install gecko-mediaplayer
+else
+    apt-get -y install mozilla-mplayer 
+fi
+echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
+if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
+    /usr/games/sl
+else
+    sl
+fi
