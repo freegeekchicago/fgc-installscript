@@ -54,7 +54,7 @@ fi
 apt-get -y update && apt-get -y upgrade
 
 # Install packages
-apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk msttcorefonts java-gcj-compat
+apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk msttcorefonts java-gcj-compat hardinfo
 apt-get -y install xubuntu-restricted-extras ca-certificates vlc exaile mplayer libdvdcss2 w32codecs flashplugin-nonfree language-pack-es language-support-es language-pack-gnome-es sl 
 if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
     apt-get -y install gecko-mediaplayer
