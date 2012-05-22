@@ -54,13 +54,17 @@ fi
 # Update everything
 apt-get -y update && apt-get -y upgrade
 
-# Install packages
+# Install FreeGeek's default packages
 apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk msttcorefonts java-gcj-compat hardinfo
-apt-get -y install xubuntu-restricted-extras ca-certificates vlc exaile mplayer libdvdcss2 w32codecs flashplugin-nonfree language-pack-es language-support-es language-pack-gnome-es sl 
+apt-get -y install xubuntu-restricted-extras ca-certificates vlc exaile mplayer libdvdcss2 w32codecs
+apt-get -y install flashplugin-nonfree language-pack-es language-support-es language-pack-gnome-es sl
+
 if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
     apt-get -y install gecko-mediaplayer
 else
     apt-get -y install mozilla-mplayer 
+
+# Ensure installation completed without errors
 fi
 echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
 if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
