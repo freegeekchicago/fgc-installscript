@@ -59,18 +59,20 @@ apt-get -y install ubuntu-restricted-extras totem-mozilla libdvdcss2 non-free-co
 apt-get -y install ttf-mgopen gcj-jre
 apt-get -y install ca-certificates vlc mplayer
 # Add spanish language support
-apt-get -y install language-pack-gnome-es language-pack-es hardinfo sl
+apt-get -y install language-pack-gnome-es language-pack-es hardinfo
 
 # Provided in ubuntu-restricted-extras: ttf-mscorefonts-installer flashplugin-installer
 # Do we need these packages anymore?: exaile gecko-mediaplayer
 
+# Install packages for specific Ubuntu versions
 if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
-    apt-get -y install libreoffice libreoffice-gtk language-support-es
+    apt-get -y install libreoffice libreoffice-gtk
 else
-    apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk
+    apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk language-support-es
 fi
 
 # Ensure installation completed without errors
+apt-get -y install sl
 echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
 if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
     /usr/games/sl
