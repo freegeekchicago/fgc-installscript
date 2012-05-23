@@ -56,15 +56,20 @@ apt-get -y update && apt-get -y upgrade
 
 # Install FreeGeek's default packages
 apt-get -y install ubuntu-restricted-extras totem-mozilla libdvdcss2 non-free-codecs
-apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk  ttf-mgopen gcj-jre
+apt-get -y install ttf-mgopen gcj-jre
 apt-get -y install ca-certificates vlc mplayer
 apt-get -y install language-pack-es language-support-es language-pack-gnome-es hardinfo sl
 
 # Provided in ubuntu-restricted-extras: ttf-mscorefonts-installer flashplugin-installer
 # Do we need these packages anymore?: exaile gecko-mediaplayer
 
-# Ensure installation completed without errors
+if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
+    apt-get -y install libreoffice libreoffice-gtk
+else
+    apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk
 fi
+
+# Ensure installation completed without errors
 echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
 if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
     /usr/games/sl
