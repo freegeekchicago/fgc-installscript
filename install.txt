@@ -54,7 +54,10 @@ fi
 if [ -e /etc/apt/sources.list.d/ubuntu-wine-ppa-lucid.list ]; then
         echo "#  Already added Wine PPA, OK."
 else        
-        add-apt-repository ppa:ubuntu-wine/ppa
+        if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
+                add-apt-repository -y ppa:ubuntu-wine/ppa # Do this if Ubuntu 11.04 or higher
+        else
+                add-apt-repository ppa:ubuntu-wine/ppa # Do this if Ubunut 10.10 or lower
 fi
 
 # Update everything
