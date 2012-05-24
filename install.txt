@@ -42,7 +42,7 @@ else
         wget http://www.medibuntu.org/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/medibuntu.list
 fi
 
-# Enable Wine Repo 
+### Enable Wine PPA 
 # Commented out, no longer maintained. See http://www.winehq.org/download/ubuntu
 #if [ -e /etc/apt/sources.list.d/winehq.list ]; then
 #        echo "#  Already added Wine repo, OK."
@@ -51,13 +51,19 @@ fi
 #        wget http://wine.budgetdedicated.com/apt/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/winehq.list
 #fi
 
+if [ -e /etc/apt/sources.list.d/ubuntu-wine-ppa-lucid.list ]; then
+        echo "#  Already added Wine PPA, OK."
+else        
+        add-apt-repository ppa:ubuntu-wine/ppa
+fi
+
 # Update everything
 apt-get -y update && apt-get -y upgrade
 
-# Install FreeGeek's default packages
+### Install FreeGeek's default packages
+# Add codecs / plugins that most people want
 apt-get -y install ubuntu-restricted-extras totem-mozilla libdvdcss2 non-free-codecs
-apt-get -y install ttf-mgopen gcj-jre
-apt-get -y install ca-certificates vlc mplayer
+apt-get -y install ttf-mgopen gcj-jre ca-certificates vlc mplayer chromium-browser
 # Add spanish language support
 apt-get -y install language-pack-gnome-es language-pack-es hardinfo
 
