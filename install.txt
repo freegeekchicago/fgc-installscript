@@ -58,6 +58,7 @@ else
                 add-apt-repository -y ppa:ubuntu-wine/ppa # Do this if Ubuntu 11.04 or higher
         else
                 add-apt-repository ppa:ubuntu-wine/ppa # Do this if Ubunut 10.10 or lower
+        fi
 fi
 
 # Update everything
