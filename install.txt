@@ -81,6 +81,9 @@ else
     apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk language-support-es
 fi
 
+### Remove conflicting default packages
+apt-get -y remove gnumeric* abiword*
+
 # Ensure installation completed without errors
 apt-get -y install sl
 echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
