@@ -23,7 +23,7 @@ echo "################################"
 #
 # Check to see if Source repos are set ON and turn OFF
 if grep -q " deb-src" /etc/apt/sources.list; then
-    echo "# Commenting out source repositories -- we don't mirror them locally."
+    echo "* Commenting out source repositories -- we don't mirror them locally."
     sed -i 's/ deb-src/#deb-src/' /etc/apt/sources.list
 else
     echo "# Already disabled source repositories"
@@ -94,13 +94,14 @@ fi
 ### Enable Wine PPA
 #
 if [ -e /etc/apt/sources.list.d/ubuntu-wine-ppa-${DISTRIB_CODENAME}.list ]; then
-        echo '# Already added Wine PPA, OK.'
+    echo '# Already added Wine PPA, OK.'
 else
-        if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
+    echo '* Adding Wine PPA.'
+    if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
                 add-apt-repository -y ppa:ubuntu-wine/ppa # Do this if Ubuntu 11.04 or higher
         else
-                add-apt-repository ppa:ubuntu-wine/ppa # Do this if Ubunut 10.10 or lower
-        fi
+                add-apt-repository ppa:ubuntu-wine/ppa # Do this if Ubuntu 10.10 or lower
+    fi
 fi
 
 ### Update everything
@@ -109,11 +110,24 @@ apt-get -y update && apt-get -y upgrade
 
 ### Install FreeGeek's default packages
 #
+# Each package should have it's own apt-get line.
+# If a package is not found or broken, the whole apt-get line is terminated.
+#
 # Add codecs / plugins that most people want
-apt-get -y install ubuntu-restricted-extras totem-mozilla libdvdcss2 non-free-codecs
-apt-get -y install ttf-mgopen gcj-jre ca-certificates vlc mplayer chromium-browser
+apt-get -y install ubuntu-restricted-extras
+apt-get -y install totem-mozilla
+apt-get -y install libdvdcss2
+apt-get -y install non-free-codecs
+apt-get -y install ttf-mgopen
+apt-get -y install gcj-jre
+apt-get -y install ca-certificates
+apt-get -y install vlc
+apt-get -y install mplayer
+apt-get -y install chromium-browser
+apt-get -y install hardinfo
+
 # Add spanish language support
-apt-get -y install language-pack-gnome-es language-pack-es hardinfo
+apt-get -y install language-pack-gnome-es language-pack-es 
 
 # Provided in ubuntu-restricted-extras: ttf-mscorefonts-installer flashplugin-installer
 # Do we need these packages anymore?: exaile gecko-mediaplayer
