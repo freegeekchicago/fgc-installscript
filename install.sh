@@ -42,6 +42,14 @@ fi
 #        wget http://www.medibuntu.org/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/medibuntu.list
 #fi
 
+## Disable and Remove Any Medibuntu Repos
+if [ -e /etc/apt/sources.list.d/medibuntu.list ]; then
+    echo "# Removing Medibuntu Repos."
+    rm /etc/apt/sources.list.d/medibuntu*
+else
+    echo "# Medibuntu Repos Have Already Been Removed."
+fi
+
 # Enable VideoLAN's libdvdcss repo
 if [ -e /etc/apt/sources.list.d/videolan.sources.list ]; then
         echo "#  Already added libdvdcss repo, OK."
@@ -103,3 +111,5 @@ if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
 else
     sl
 fi
+
+## EOF
