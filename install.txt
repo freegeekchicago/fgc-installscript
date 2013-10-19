@@ -1,0 +1,32 @@
+#!/bin/bash
+
+### Short script for pulling the install.sh file from
+### FreeGeek Chicago's github account and running it.
+### Orginally written by James Slater
+
+# Check for root/sudo privileges
+if [ "$(id -u)" != "0" ]; then
+	echo "Sorry, you are not root."
+	exit 1
+fi
+
+echo "############################"
+echo "## Downloading Install.sh ##"
+echo "############################"
+
+# Remove current install.sh
+if [ -f /usr/local/bin/install.sh ]; then
+	echo "## Removing old install.sh, OK."
+	rm /usr/local/bin/install.sh
+fi
+
+# Pull fresh install.sh from github, store in /usr/local/bin
+echo "## Pulling fresh install.sh, OK."
+wget -qO /usr/local/bin/install.sh https://raw.github.com/freegeekchicago/fgc-installscript/master/install.sh
+## shorten address is http://git.io/Ool_Aw
+
+# Run install.sh for updates
+echo "## Running install.sh, BYE!"
+sh /usr/local/bin/install.sh
+
+#EOF
