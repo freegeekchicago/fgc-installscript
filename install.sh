@@ -22,9 +22,9 @@ echo "################################"
 ### Disable Source Repos
 #
 # Check to see if Source repos are set ON and turn OFF
-if grep -q " deb-src" /etc/apt/sources.list; then
+if grep -q "deb-src#" /etc/apt/sources.list; then
     echo "* Commenting out source repositories -- we don't mirror them locally."
-    sed -i 's/ deb-src/#deb-src/' /etc/apt/sources.list
+    sed -i 's/deb-src /#deb-src#/' /etc/apt/sources.list
 else
     echo "# Already disabled source repositories"
 fi
