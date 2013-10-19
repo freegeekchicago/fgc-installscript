@@ -4,6 +4,8 @@
 ### FreeGeek Chicago by David Eads
 ### Updates by Brent Bandegar, Dee Newcum, James Slater, Alex Hanson
 
+### Available on FreeGeek Chicago's github Account at http://git.io/Ool_Aw
+
 ### Import DISTRIB_CODENAME and DISTRIB_RELEASE
 . /etc/lsb-release
 
