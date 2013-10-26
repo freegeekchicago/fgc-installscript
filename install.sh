@@ -107,8 +107,8 @@ else
 fi
 
 ### Update everything
-#
-apt-get -y update && apt-get -y upgrade
+# We use dist-upgrade to ensure up-to-date kernels are installed
+apt-get -y update && apt-get -y dist-upgrade
 
 ### Install FreeGeek's default packages
 #
