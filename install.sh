@@ -128,6 +128,14 @@ apt-get -y install mplayer
 apt-get -y install chromium-browser
 apt-get -y install hardinfo
 
+# Add Pepper Flash Player support for Chromium
+# Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
+
+if [ $(lsb_release -rs)='14.04' ]; then
+	apt-get -y install pepperflashplugin-nonfree &&
+	update-pepperflashplugin-nonfree --install
+fi
+
 # Add spanish language support
 apt-get -y install language-pack-gnome-es language-pack-es 
 
