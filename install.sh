@@ -164,7 +164,7 @@ else
 fi
 
 # Function that makes a prompt
-function ask {
+ask() {
     while true; do
  
         if [ "${2:-}" = "Y" ]; then
