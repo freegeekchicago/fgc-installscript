@@ -137,7 +137,10 @@ if [ $(lsb_release -rs)='14.04' ]; then
 fi
 
 # Add spanish language support
-apt-get -y install language-pack-gnome-es language-pack-es 
+apt-get -y install language-pack-gnome-es language-pack-es
+
+# Install nonfree firmware for Broadcom wireless cards and TV capture cards
+apt-get -y install linux-firmware-nonfree
 
 # Provided in ubuntu-restricted-extras: ttf-mscorefonts-installer flashplugin-installer
 # Do we need these packages anymore?: exaile gecko-mediaplayer
