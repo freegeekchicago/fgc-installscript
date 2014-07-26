@@ -158,14 +158,13 @@ apt-get -y remove gnumeric* abiword*
 
 ### Ensure installation completed without errors
 #
+apt-get -y install sl
 wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
-echo "Installation complete -- relax, and watch this NYAN CAT"
-if [ -e "/usr/local/bin/nyancat" ]; then
+if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
 	echo "Installation complete -- relax, and watch this NYAN CAT"
-	/usr/local/bin/nyancat -ns -f 37
+	/usr/local/bin/nyancat -nsf 37
 else
 	echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
-	apt-get -y install sl
 	if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
     		/usr/games/sl
 	else
