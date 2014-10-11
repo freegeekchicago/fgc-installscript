@@ -140,6 +140,8 @@ if ask "Are you running Kubuntu-Desktop?" N; then
     echo "Installing Kubuntu additonal packages."
     apt-get -y install software-center
     apt-get -y install kdewallpapers
+    apt-get -y install kubuntu-restricted-extras
+    apt-get -y autoremove muon muon-updater
 fi
 
 
@@ -173,21 +175,16 @@ apt-get -y install language-pack-gnome-es language-pack-es
 apt-get -y install linux-firmware-nonfree
 
 # Provided in ubuntu-restricted-extras: ttf-mscorefonts-installer flashplugin-installer
-# Do we need these packages anymore?: exaile gecko-mediaplayer
-
-# Install packages for specific Ubuntu versions
-if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
-    apt-get -y install libreoffice libreoffice-gtk
-else
-    apt-get -y install openoffice.org openoffice.org-gcj openoffice.org-gtk language-support-es
-fi
 
 ### Remove conflicting default packages
 #
 apt-get -y remove gnumeric* abiword*
 
-### Ensure installation completed without errors
-#
+#################################
+# Install and Run sl or nyancat #
+#################################
+# Ensure installation completed without errors
+
 apt-get -y install sl
 wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
 if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
@@ -200,9 +197,12 @@ else
 	else
     		sl
 	fi
-fi	
+fi
 
-# Ask for reboot
+##################
+# Ask for reboot #
+##################
+
 if ask "Do you want to reboot now?" N; then
     echo "Rebooting now."
     reboot
