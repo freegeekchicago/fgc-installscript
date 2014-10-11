@@ -135,6 +135,8 @@ fi
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
 
+# Each package should have it's own apt-get line.
+# If a package is not found or broken, the whole apt-get line is terminated.
 
 #######
 ### Packages for Trusty (14.04)
@@ -154,18 +156,18 @@ if ask "Are you running Kubuntu-Desktop?" N; then
     apt-get -y install software-center
     apt-get -y install kdewallpapers
     apt-get -y install kubuntu-restricted-extras
-    apt-get -y autoremove muon muon-updater
+    apt-get -y autoremove muon muon-updater muon-discover
 fi
 
+#######
+### Packages for Precise (12.04)
+######
+   apt-get -y remove gnumeric* abiword*
 
 
 ######
 ### Packages for All Releases
 ######
-### Install FreeGeek's default packages
-#
-# Each package should have it's own apt-get line.
-# If a package is not found or broken, the whole apt-get line is terminated.
 #
 # Add codecs / plugins that most people want
 apt-get -y install ubuntu-restricted-extras
@@ -187,11 +189,6 @@ apt-get -y install language-pack-gnome-es language-pack-es
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
 apt-get -y install linux-firmware-nonfree
 
-# Provided in ubuntu-restricted-extras: ttf-mscorefonts-installer flashplugin-installer
-
-### Remove conflicting default packages
-#
-apt-get -y remove gnumeric* abiword*
 
 #################################
 # Install and Run sl or nyancat #
