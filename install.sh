@@ -81,11 +81,29 @@ else
 	wget -O - http://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - libdvdcss
 fi
 
+#######################
+# Add/Remove Packages #
+#######################
 
 ### Update everything
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
 
+
+#######
+### Packages for Trusty (14.04)
+######
+
+# Add Pepper Flash Player support for Chromium
+# Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
+if [ $(lsb_release -rs)='14.04' ]; then
+        apt-get -y install pepperflashplugin-nonfree &&
+        update-pepperflashplugin-nonfree --install
+fi
+
+######
+### Packages for All Releases
+######
 ### Install FreeGeek's default packages
 #
 # Each package should have it's own apt-get line.
@@ -103,14 +121,6 @@ apt-get -y install vlc
 apt-get -y install mplayer
 apt-get -y install chromium-browser
 apt-get -y install hardinfo
-
-# Add Pepper Flash Player support for Chromium
-# Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
-
-if [ $(lsb_release -rs)='14.04' ]; then
-	apt-get -y install pepperflashplugin-nonfree &&
-	update-pepperflashplugin-nonfree --install
-fi
 
 # Add spanish language support
 apt-get -y install language-pack-gnome-es language-pack-es
