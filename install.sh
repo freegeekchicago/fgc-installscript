@@ -130,16 +130,16 @@ apt-get -y update && apt-get -y dist-upgrade
 # Add Pepper Flash Player support for Chromium
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
 if [ $(lsb_release -rs)='14.04' ]; then
-        apt-get -y install pepperflashplugin-nonfree &&
-        update-pepperflashplugin-nonfree --install
+    apt-get -y install pepperflashplugin-nonfree &&
+    update-pepperflashplugin-nonfree --install
+    apt-get -y install libreoffice
 fi
 
 # Kubuntu Specific Packages
 if ask "Are you running Kubuntu-Desktop?" N; then
     echo "Installing Kubuntu additonal packages."
+    apt-get -y install software-center
     apt-get -y install kdewallpapers
-else
-    exit 0
 fi
 
 
@@ -154,6 +154,7 @@ fi
 #
 # Add codecs / plugins that most people want
 apt-get -y install ubuntu-restricted-extras
+apt-get -y install gimp krita inkscape
 apt-get -y install totem-mozilla
 apt-get -y install libdvdcss2
 apt-get -y install non-free-codecs
