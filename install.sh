@@ -21,6 +21,10 @@ echo "################################"
 # <releasename>-security main restricted universe multiverse
 # <releasename>-updates main restricted
 
+##################################
+# Edits to /etc/apt/sources.list #
+##################################
+
 ### Disable Source Repos
 #
 # Check to see if Source repos are set ON and turn OFF
@@ -31,8 +35,9 @@ else
     sed -i 's/deb-src /#deb-src# /' /etc/apt/sources.list
 fi
 
+### METHOD 1? Add distrib-updates universe multiverse
+#
 # Figure out if this part of the script has been run already
-# TODO: Look at the default sources.list
 #grep "${DISTRIB_CODENAME}-updates universe" /etc/apt/sources.list
 #if (($? == 1)); then
 #    echo "* Adding ${DISTRIB_CODENAME} updates line for universe and multiverse"
@@ -42,14 +47,16 @@ fi
 #    echo "# Already added universe and multiverse ${DISTRIB_CODENAME}-updates line to sources,"
 #fi
 
+### METHOD 2? Add distrib-updates universe multiverse
+#
 # Figure out if this part of the script has been run already
-if grep -q "${DISTRIB_CODENAME}-updates universe" /etc/apt/sources.list; then
-    echo "# Already added universe and multiverse ${DISTRIB_CODENAME}-updates line to sources,"
-else
-    echo "* Adding ${DISTRIB_CODENAME} updates line for universe and multiverse"
-    cp /etc/apt/sources.list /etc/apt/sources.list.backup
-    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRIB_CODENAME}-updates universe multiverse" >> /etc/apt/sources.list
-fi
+#if grep -q "${DISTRIB_CODENAME}-updates universe" /etc/apt/sources.list; then
+#    echo "# Already added universe and multiverse ${DISTRIB_CODENAME}-updates line to sources,"
+#else
+#    echo "* Adding ${DISTRIB_CODENAME} updates line for universe and multiverse"
+#    cp /etc/apt/sources.list /etc/apt/sources.list.backup
+#    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRIB_CODENAME}-updates universe multiverse" >> /etc/apt/sources.list
+#fi
 
 ### Enable Medibuntu Repos
 #
