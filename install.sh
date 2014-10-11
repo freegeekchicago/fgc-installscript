@@ -82,29 +82,6 @@ else
 fi
 
 
-### Enable Wine Repo
-#
-# Commented out, no longer maintained. See http://www.winehq.org/download/ubuntu
-#if [ -e /etc/apt/sources.list.d/winehq.list ]; then
-#        echo '#  Already added Wine repo, OK.'
-#else
-#        wget -q http://wine.budgetdedicated.com/apt/387EE263.gpg -O- | apt-key add -
-#        wget http://wine.budgetdedicated.com/apt/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/winehq.list
-#fi
-
-### Enable Wine PPA
-#
-if [ -e /etc/apt/sources.list.d/ubuntu-wine-ppa-${DISTRIB_CODENAME}.list ]; then
-    echo '# Already added Wine PPA, OK.'
-else
-    echo '* Adding Wine PPA.'
-    if [ $DISTRIB_MAJOR_RELEASE -ge 11 ]; then
-                add-apt-repository -y ppa:ubuntu-wine/ppa # Do this if Ubuntu 11.04 or higher
-        else
-                add-apt-repository ppa:ubuntu-wine/ppa # Do this if Ubuntu 10.10 or lower
-    fi
-fi
-
 ### Update everything
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
