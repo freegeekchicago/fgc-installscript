@@ -58,19 +58,9 @@ fi
 #    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRIB_CODENAME}-updates universe multiverse" >> /etc/apt/sources.list
 #fi
 
-### Enable Medibuntu Repos
-#
-# Commented out, no longer maintained.
-#if [ -e /etc/apt/sources.list.d/medibuntu.list ]; then
-#        echo "#  Already added Medibuntu repo, OK."
-#else
-#        wget -q http://packages.medibuntu.org/medibuntu-key.gpg -O- | apt-key add -
-#        wget http://www.medibuntu.org/sources.list.d/${DISTRIB_CODENAME}.list -O /etc/apt/sources.list.d/medibuntu.list
-#fi
-
-
 ### Disable and Remove Any Medibuntu Repos
 #
+
 if [ -e /etc/apt/sources.list.d/medibuntu.list ]; then
     echo "* Removing Medibuntu Repos."
     rm /etc/apt/sources.list.d/medibuntu*
@@ -79,6 +69,8 @@ else
 fi
 
 ### Enable VideoLAN Repo for libdvdcss
+#
+# In the future call /usr/share/doc/libdvdread4/install-css.sh
 #
 if [ -e /etc/apt/sources.list.d/videolan.sources.list ]; then
     echo "# Already added libdvdcss repo, OK."
