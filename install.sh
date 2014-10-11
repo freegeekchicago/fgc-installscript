@@ -21,6 +21,39 @@ echo "################################"
 # <releasename>-security main restricted universe multiverse
 # <releasename>-updates main restricted
 
+# Function that makes a prompt
+ask() {
+    while true; do
+ 
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+ 
+        # Ask the question
+        read -p "$1 [$prompt] " REPLY
+ 
+        # Default?
+        if [ -z "$REPLY" ]; then
+            REPLY=$default
+        fi
+ 
+        # Check if the reply is valid
+        case "$REPLY" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+ 
+    done
+}
+
+
 ##################################
 # Edits to /etc/apt/sources.list #
 ##################################
@@ -101,6 +134,16 @@ if [ $(lsb_release -rs)='14.04' ]; then
         update-pepperflashplugin-nonfree --install
 fi
 
+# Kubuntu Specific Packages
+if ask "Are you running Kubuntu-Desktop?" N; then
+    echo "Installing Kubuntu additonal packages."
+    apt-get -y install kdewallpapers
+else
+    exit 0
+fi
+
+
+
 ######
 ### Packages for All Releases
 ######
@@ -157,37 +200,6 @@ else
     		sl
 	fi
 fi	
-# Function that makes a prompt
-ask() {
-    while true; do
- 
-        if [ "${2:-}" = "Y" ]; then
-            prompt="Y/n"
-            default=Y
-        elif [ "${2:-}" = "N" ]; then
-            prompt="y/N"
-            default=N
-        else
-            prompt="y/n"
-            default=
-        fi
- 
-        # Ask the question
-        read -p "$1 [$prompt] " REPLY
- 
-        # Default?
-        if [ -z "$REPLY" ]; then
-            REPLY=$default
-        fi
- 
-        # Check if the reply is valid
-        case "$REPLY" in
-            Y*|y*) return 0 ;;
-            N*|n*) return 1 ;;
-        esac
- 
-    done
-}
 
 # Ask for reboot
 if ask "Do you want to reboot now?" N; then
