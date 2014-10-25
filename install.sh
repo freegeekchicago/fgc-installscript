@@ -152,8 +152,8 @@ if [ $(lsb_release -rs)='14.04' ]; then
 fi
 
 # Kubuntu 14.04 Specific Packages
-if ask "Are you running Kubuntu-Desktop?" N; then
-    echo "Installing Kubuntu additonal packages."
+if (dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed"); then
+    echo "Customizing Kubuntu packages."
     apt-get -y install software-center
     apt-get -y install kdewallpapers
     apt-get -y install kubuntu-restricted-extras
