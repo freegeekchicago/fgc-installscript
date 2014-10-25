@@ -138,9 +138,9 @@ apt-get -y update && apt-get -y dist-upgrade
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
-#######
+###############
 ### Packages for Trusty (14.04)
-######
+###############
 
 # Add Pepper Flash Player support for Chromium
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
@@ -148,9 +148,10 @@ if [ $(lsb_release -rs)='14.04' ]; then
     apt-get -y install pepperflashplugin-nonfree &&
     update-pepperflashplugin-nonfree --install
     apt-get -y install libreoffice
+    apt-get -y install font-mgopen
 fi
 
-# Kubuntu Specific Packages
+# Kubuntu 14.04 Specific Packages
 if ask "Are you running Kubuntu-Desktop?" N; then
     echo "Installing Kubuntu additonal packages."
     apt-get -y install software-center
@@ -159,32 +160,47 @@ if ask "Are you running Kubuntu-Desktop?" N; then
     apt-get -y autoremove muon muon-updater muon-discover
 fi
 
-#######
+# Xubuntu 14.04 Specific Packages
+    apt-get -y install xubuntu-restricted-extras
+    apt-get -y remove gnumeric* abiword*
+
+###############
 ### Packages for Precise (12.04)
-######
-   apt-get -y remove gnumeric* abiword*
+###############
+    apt-get -y install ttf-mgopen
+    apt-get -y remove gnumeric* abiword*
 
 
-######
+###############
 ### Packages for All Releases
-######
-#
+###############
+
 # Add codecs / plugins that most people want
 apt-get -y install ubuntu-restricted-extras
-apt-get -y install gimp krita inkscape
-apt-get -y install totem-mozilla
-apt-get -y install libdvdcss2
 apt-get -y install non-free-codecs
-apt-get -y install ttf-mgopen
-apt-get -y install gcj-jre
-apt-get -y install ca-certificates
+apt-get -y install libdvdcss2
+
+# Add design / graphics programs
+apt-get -y install gimp
+apt-get -y install krita
+apt-get -y install inkscape
+
+# Add VLC and mplayer to play all multimedia
 apt-get -y install vlc
 apt-get -y install mplayer
+apt-get -y install totem-mozilla
+# Need to justify installation of mplayer and totem-mozilla
+
+# Misc Packages. Need to justify installation of each.
+apt-get -y install gcj-jre
+apt-get -y install ca-certificates
 apt-get -y install chromium-browser
+# Also install Chrome?
 apt-get -y install hardinfo
 
 # Add spanish language support
-apt-get -y install language-pack-gnome-es language-pack-es
+apt-get -y install language-pack-es
+apt-get -y install language-pack-gnome-es
 
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
 apt-get -y install linux-firmware-nonfree
