@@ -144,7 +144,8 @@ apt-get -y update && apt-get -y dist-upgrade
 
 # Add Pepper Flash Player support for Chromium
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
-if [ $(lsb_release -rs)='14.04' ]; then
+if [ $(lsb_release -rs) = '14.04' ]; then
+    echo "* Customizing Trusty packages"
     apt-get -y install pepperflashplugin-nonfree &&
     update-pepperflashplugin-nonfree --install
     apt-get -y install libreoffice
@@ -152,8 +153,8 @@ if [ $(lsb_release -rs)='14.04' ]; then
 fi
 
 # Kubuntu 14.04 Specific Packages
-if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed")=1 ]; then
-    echo "* Customizing Kubuntu packages."
+if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+    echo "* Customizing Trusty-Kubuntu packages."
     apt-get -y install software-center
     apt-get -y install kdewallpapers
     apt-get -y install kubuntu-restricted-extras
@@ -161,8 +162,8 @@ if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok in
 fi
 
 # Xubuntu 14.04 Specific Packages
-if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed")=1 ]; then
-    echo "* Customizing Xubuntu packages."
+if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+    echo "* Customizing Trusty-Xubuntu packages."
     apt-get -y install xubuntu-restricted-extras
     apt-get -y remove gnumeric* abiword*
 fi
@@ -172,12 +173,13 @@ fi
 ####################################
 
 if [ $(lsb_release -rs)='12.04' ]; then
+    echo "* Customizing Precise packages."
     apt-get -y install ttf-mgopen
 fi
 
 # Xubuntu 14.04 Specific Packages
-if (dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed"); then
-    echo "Customizing Xubuntu packages."
+if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+    echo "* Customizing Precise-Xubuntu packages."
     apt-get -y install xubuntu-restricted-extras
     apt-get -y remove gnumeric* abiword*
 fi
