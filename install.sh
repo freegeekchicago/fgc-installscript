@@ -138,9 +138,9 @@ apt-get -y update && apt-get -y dist-upgrade
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
-###############
-### Packages for Trusty (14.04)
-###############
+
+### Packages for Trusty (14.04) ###
+###################################
 
 # Add Pepper Flash Player support for Chromium
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
@@ -161,6 +161,7 @@ if (dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok insta
 fi
 
 # Xubuntu 14.04 Specific Packages
+if (dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed"); then
     apt-get -y install xubuntu-restricted-extras
     apt-get -y remove gnumeric* abiword*
 
