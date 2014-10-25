@@ -148,12 +148,12 @@ if [ $(lsb_release -rs)='14.04' ]; then
     apt-get -y install pepperflashplugin-nonfree &&
     update-pepperflashplugin-nonfree --install
     apt-get -y install libreoffice
-    apt-get -y install font-mgopen
+    apt-get -y install fonts-mgopen
 fi
 
 # Kubuntu 14.04 Specific Packages
-if (dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed"); then
-    echo "Customizing Kubuntu packages."
+if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed")=1 ]; then
+    echo "* Customizing Kubuntu packages."
     apt-get -y install software-center
     apt-get -y install kdewallpapers
     apt-get -y install kubuntu-restricted-extras
@@ -161,15 +161,27 @@ if (dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok insta
 fi
 
 # Xubuntu 14.04 Specific Packages
-if (dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed"); then
+if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed")=1 ]; then
+    echo "* Customizing Xubuntu packages."
     apt-get -y install xubuntu-restricted-extras
     apt-get -y remove gnumeric* abiword*
+fi
 
-###############
-### Packages for Precise (12.04)
-###############
+###
+### Packages for Precise (12.04) ###
+####################################
+
+if [ $(lsb_release -rs)='12.04' ]; then
     apt-get -y install ttf-mgopen
+fi
+
+# Xubuntu 14.04 Specific Packages
+if (dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed"); then
+    echo "Customizing Xubuntu packages."
+    apt-get -y install xubuntu-restricted-extras
     apt-get -y remove gnumeric* abiword*
+fi
+
 
 
 ###############
