@@ -148,7 +148,6 @@ if [ $(lsb_release -rs) = '14.04' ]; then
     echo "* Customizing Trusty packages"
     apt-get -y install pepperflashplugin-nonfree &&
     update-pepperflashplugin-nonfree --install
-    apt-get -y install libreoffice
     apt-get -y install fonts-mgopen
 
 	# Kubuntu 14.04 Specific Packages
@@ -188,6 +187,8 @@ fi
 ###############
 ### Packages for All Releases
 ###############
+# Make sure an office suite is installed
+apt-get -y install libreoffice
 
 # Add codecs / plugins that most people want
 apt-get -y install ubuntu-restricted-extras
