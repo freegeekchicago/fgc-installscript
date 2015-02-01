@@ -228,6 +228,7 @@ apt-get -y install linux-firmware-nonfree
 
 apt-get -y install sl
 wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
+chmod 755 /usr/local/bin/nyancat
 if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
 	echo "Installation complete -- relax, and watch this NYAN CAT"
 	/usr/local/bin/nyancat -nsf 37
