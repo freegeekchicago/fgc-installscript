@@ -172,7 +172,7 @@ if [ $(lsb_release -rs) = '14.04' ]; then
             xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "parole --device=% cdda://"
 
             # Make a system-wide fix so that Mac eject key (X86Eject) is mapped to eject (eject -r) function.
-            sudo xmlstarlet ed -L -s '/channel/property[@name="commands"]/property[@name="default"]' -t elem -n propertyTMP -v "" \
+            xmlstarlet ed -L -s '/channel/property[@name="commands"]/property[@name="default"]' -t elem -n propertyTMP -v "" \
                 -i //propertyTMP -t attr -n "name" -v "X86Eject" \
                 -i //propertyTMP -t attr -n "type" -v "string" \
                 -i //propertyTMP -t attr -n "value" -v "eject -r" \
