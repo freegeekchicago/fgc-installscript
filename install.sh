@@ -246,7 +246,7 @@ apt-get -y install linux-firmware-nonfree
 ###################################
 
 MANUFACTURER=`dmidecode -s system-manufacturer`
-if [ '$MANUFACTURER' = 'Apple Inc.' ]; then
+if [ "$MANUFACTURER" = "Apple Inc." ]; then
     echo "You are using an $MANUFACTURER."
 
     # Remove current apple_ubuntu.sh
@@ -261,7 +261,7 @@ if [ '$MANUFACTURER' = 'Apple Inc.' ]; then
 
     # Run install.sh for updates
     echo "## Running apple_ubuntu.sh, BYE!"
-    sh /usr/local/bin/apple_ubunt.sh
+    . /usr/local/bin/apple_ubuntu.sh
 fi
 
 #################################
