@@ -167,19 +167,24 @@ if [ $(lsb_release -rs) = '14.04' ]; then
         echo "* Customizing Trusty-Xubuntu settings."
             apt-get -y install xmlstarlet
             # Make a system-wide fix so that Audio CDs autoload correctly.
-            xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v 'parole --device=% cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
+            xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
             ### And now do it for the current user.
-            xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "parole --device=% cdda://"
+            xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
+
+            # Make a system-wide fix so that Audio CDs autoload correctly.
+            xmlstarlet ed -L -u '/channel/property[@name="autoplay-video-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc dvd://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
+            ### And now do it for the current user.
+            xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
 
             # Make a system-wide fix so that Mac eject key (X86Eject) is mapped to eject (eject -r) function.
             xmlstarlet ed -L -s '/channel/property[@name="commands"]/property[@name="default"]' -t elem -n propertyTMP -v "" \
                 -i //propertyTMP -t attr -n "name" -v "X86Eject" \
                 -i //propertyTMP -t attr -n "type" -v "string" \
-                -i //propertyTMP -t attr -n "value" -v "eject -r" \
+                -i //propertyTMP -t attr -n "value" -v "eject" \
                 -r //propertyTMP -v property \
             /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
             ### And now do it for the current user.
-            xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject -r"
+            xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject"
 	fi
 fi
 
