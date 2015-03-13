@@ -164,6 +164,27 @@ if [ $(lsb_release -rs) = '14.04' ]; then
 	    echo "* Customizing Trusty-Xubuntu packages."
 	    apt-get -y install xubuntu-restricted-extras
 	    apt-get -y remove gnumeric* abiword*
+        echo "* Customizing Trusty-Xubuntu settings."
+            apt-get -y install xmlstarlet
+            # Make a system-wide fix so that Audio CDs autoload correctly.
+            xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
+            ### And now do it for the current user.
+            xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
+
+            # Make a system-wide fix so that Audio CDs autoload correctly.
+            xmlstarlet ed -L -u '/channel/property[@name="autoplay-video-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc dvd://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
+            ### And now do it for the current user.
+            xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
+
+            # Make a system-wide fix so that Mac eject key (X86Eject) is mapped to eject (eject -r) function.
+            xmlstarlet ed -L -s '/channel/property[@name="commands"]/property[@name="default"]' -t elem -n propertyTMP -v "" \
+                -i //propertyTMP -t attr -n "name" -v "X86Eject" \
+                -i //propertyTMP -t attr -n "type" -v "string" \
+                -i //propertyTMP -t attr -n "value" -v "eject" \
+                -r //propertyTMP -v property \
+            /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+            ### And now do it for the current user.
+            xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject"
 	fi
 fi
 
@@ -175,7 +196,7 @@ if [ $(lsb_release -rs) = '12.04' ]; then
     echo "* Customizing Precise packages."
     apt-get -y install ttf-mgopen
 
-	# Xubuntu 14.04 Specific Packages
+	# Xubuntu 12.04 Specific Packages
 	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
 	    echo "* Customizing Precise-Xubuntu packages."
 	    apt-get -y install xubuntu-restricted-extras
