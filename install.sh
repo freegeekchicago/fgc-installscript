@@ -270,19 +270,19 @@ fi
 # Ensure installation completed without errors
 
 apt-get -y install sl
-wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
-chmod 755 /usr/local/bin/nyancat
-if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
-	echo "Installation complete -- relax, and watch this NYAN CAT"
-	/usr/local/bin/nyancat -nsf 37
-else
+#wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
+#chmod 755 /usr/local/bin/nyancat
+#if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
+#	echo "Installation complete -- relax, and watch this NYAN CAT"
+#	/usr/local/bin/nyancat -nsf 37
+#else
 	echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
-	if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
-    		/usr/games/sl
-	else
+#	if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
+#    		/usr/games/sl
+#	else
     		sl
-	fi
-fi
+#	fi
+#fi
 
 ##################
 # Ask for reboot #
