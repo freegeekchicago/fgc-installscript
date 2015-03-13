@@ -241,6 +241,28 @@ apt-get -y install language-pack-gnome-es
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
 apt-get -y install linux-firmware-nonfree
 
+###################################
+# Check for Apple as Manufacturer #
+###################################
+
+MANUFACTURER=`dmidecode -s system-manufacturer`
+if [ $MANUFACTURER = "APPLE" ]; then
+    echo "You are using an $MANUFACTURER."
+
+    # Remove current apple_ubuntu.sh
+    if [ -f /usr/local/bin/apple_ubuntu.sh ]; then
+    	echo "## Removing old apple_ubuntu.sh, OK."
+    	rm /usr/local/bin/apple_ubuntu.sh
+    fi
+
+    # Pull fresh install.sh from github, store in /usr/local/bin
+    echo "## Pulling fresh apple_ubuntu.sh, OK."
+    wget -qO /usr/local/bin/apple_ubuntu.sh https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/apple_ubuntu.sh
+
+    # Run install.sh for updates
+    echo "## Running apple_ubuntu.sh, BYE!"
+    sh /usr/local/bin/apple_ubunt.sh
+fi
 
 #################################
 # Install and Run sl or nyancat #
