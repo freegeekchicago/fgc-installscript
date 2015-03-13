@@ -10,7 +10,7 @@ MACBOOK41='MacBook4,1'
 webcam() {
     apt-get -y install cheese
     apt-get -y install isight-firmware-tools
-    wget -P /lib/firmware http://fgc-nfs/iSight/AppleUSBVideoSupport
+    wget -qO /lib/firmware/AppleUSBVideoSupport http://fgc-nfs/iSight/AppleUSBVideoSupport
     ift-extract -a /lib/firmware/AppleUSBVideoSupport
 }
 
