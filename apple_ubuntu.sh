@@ -8,15 +8,15 @@ MACBOOK41='MacBook4,1'
 
 ## Install webcam firmware
 webcam() {
-    apt-get install cheese
-    apt-get install isight-firmware-tools
+    apt-get -y install cheese
+    apt-get -y install isight-firmware-tools
     wget -P /lib/firmware http://fgc-nfs/iSight/AppleUSBVideoSupport
     ift-extract -a /lib/firmware/AppleUSBVideoSupport
 }
 
 ### Install Broadcom Wireless Driver
 wireless() {
-    apt-get install firmware-b43-installer b43-fwcutter
+    apt-get -y install firmware-b43-installer b43-fwcutter
 }
 
 ## Fix touchpad issues
