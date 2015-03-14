@@ -2,8 +2,6 @@
 
 ## Define Variables
 MODEL=`dmidecode -s system-product-name`
-MACBOOK21='MacBook2,1'
-MACBOOK41='MacBook4,1'
 #~/.config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
 
 ## Install webcam firmware
@@ -40,7 +38,7 @@ EndSection' >> /etc/X11/xorg.conf.d/10-synaptics.conf
 }
 
 ## MACBOOK2,1
-if [ $MODEL = $MACBOOK21 ]; then
+if [ $MODEL = "MacBook2,1" ]; then
     echo "You are using an Apple $MODEL."
     echo "Installing iSight webcam"
     webcam
@@ -50,8 +48,18 @@ if [ $MODEL = $MACBOOK21 ]; then
     touchpad
 fi
 
+## MACBOOK3,1
+if [ $MODEL = "MacBook3,1" ]; then
+    echo "You are using an Apple $MODEL."
+    echo "Installing iSight webcam"
+    webcam
+    echo "Installing wireless drivers"
+    wireless
+fi
+
+
 ## MACBOOK4,1
-if [ $MODEL = $MACBOOK41 ]; then
+if [ $MODEL = "MacBook4,1" ]; then
     echo "You are using an Apple $MODEL."
     echo "Installing iSight webcam"
     webcam
