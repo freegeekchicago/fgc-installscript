@@ -239,7 +239,7 @@ apt-get -y install language-pack-es
 apt-get -y install language-pack-gnome-es
 
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
-apt-get -y install linux-firmware-nonfree
+apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
 
 ###################################
 # Check for Apple as Manufacturer #
