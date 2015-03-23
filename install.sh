@@ -4,13 +4,14 @@
 ### FreeGeek Chicago by David Eads
 ### Updates by Brent Bandegar, Dee Newcum, James Slater, Alex Hanson
 
-### Available on FreeGeek Chicago's github Account at http://git.io/Ool_Aw
+### Available on FreeGeek` Chicago's github Account at http://git.io/Ool_Aw
 
 ### Import DISTRIB_CODENAME and DISTRIB_RELEASE
 . /etc/lsb-release
 
 ### Get the integer part of $DISTRIB_RELEASE. Bash/test can't handle floating-point numbers.
-DISTRIB_MAJOR_RELEASE=$(echo "scale=0; $DISTRIB_RELEASE/1" | bc)
+#DISTRIB_MAJOR_RELEASE=$(echo "scale=0; $DISTRIB_RELEASE/1" | bc) # but bc can, using redirections!
+
 
 echo "################################"
 echo "#  FreeGeek Chicago Installer  #"
@@ -270,19 +271,20 @@ fi
 # Ensure installation completed without errors
 
 apt-get -y install sl
-#wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
-#chmod 755 /usr/local/bin/nyancat
-#if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
-#	echo "Installation complete -- relax, and watch this NYAN CAT"
-#	/usr/local/bin/nyancat -nsf 37
-#else
-	echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"
-#	if [ $DISTRIB_MAJOR_RELEASE -ge 10 ]; then
-#    		/usr/games/sl
-#	else
+wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
+chmod 755 /usr/local/bin/nyancat
+if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
+	echo "Installation complete -- relax, and watch this NYAN CAT"; sleep 2
+	/usr/local/bin/nyancat -nsf 37
+else
+  # Using bc instead of test lets us use floating point numbers
+	if (( $(bc <<< "$DISTRIB_RELEASE > 10.04") == 1 )); then
+    		echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
+    		/usr/games/sl
+	else
     		sl
-#	fi
-#fi
+	fi
+fi
 
 ##################
 # Ask for reboot #
