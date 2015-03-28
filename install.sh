@@ -170,9 +170,6 @@ if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok in
         xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject"
 fi
 
-###############
-### Packages for All Releases
-###############
 # Make sure an office suite is installed
 apt-get -y install libreoffice
 
@@ -206,6 +203,9 @@ apt-get -y install language-pack-gnome-es
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
 apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
 
+# Install libc6:i386 to fix dependency problems for nyancat:i386
+apt-get -y install libc6:i386
+
 ###################################
 # Check for Apple as Manufacturer #
 ###################################
@@ -234,10 +234,11 @@ fi
 #################################
 # Ensure installation completed without errors
 
-apt-get -y install nyancat
+# Install the latest nyancat from the utopic (14.10) mirror
+URL='http://archive.ubuntu.com/ubuntu/pool/universe/n/nyancat/nyancat_1.4.4-1_i386.deb'; FILE=`mktemp`; wget "$URL" -qO $FILE && sudo dpkg -i $FILE; rm $FILE
 if [ -e "/usr/bin/nyancat" ]; then
 	echo "Installation complete -- relax, and watch this NYAN CAT"; sleep 2
-    # -n: no counter, -s: no titlebar text, -f: run for 34 frames (3 seconds)
+    # -n: no counter, -s: no titlebar text, -f: run for 34 frames (~3 seconds)
 	nyancat -nsf 34
 fi
 
