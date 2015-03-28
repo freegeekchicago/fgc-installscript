@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 ### Simple minded install script for
 ### FreeGeek Chicago by David Eads
@@ -10,7 +10,6 @@
 . /etc/lsb-release
 
 ### Get the integer part of $DISTRIB_RELEASE. Bash/test can't handle floating-point numbers.
-#DISTRIB_MAJOR_RELEASE=$(echo "scale=0; $DISTRIB_RELEASE/1" | bc) # but bc can, using redirections!
 
 
 echo "################################"
@@ -38,7 +37,8 @@ ask() {
         fi
  
         # Ask the question
-        read -p "$1 [$prompt] " REPLY
+        echo -n "$1 [$prompt] "
+        read REPLY
  
         # Default?
         if [ -z "$REPLY" ]; then
@@ -68,29 +68,6 @@ else
     echo "* Commenting out source repositories -- we don't mirror them locally."
     sed -i 's/deb-src /#deb-src# /' /etc/apt/sources.list
 fi
-
-### METHOD 1? Add distrib-updates universe multiverse
-#
-# Figure out if this part of the script has been run already
-#grep "${DISTRIB_CODENAME}-updates universe" /etc/apt/sources.list
-#if (($? == 1)); then
-#    echo "* Adding ${DISTRIB_CODENAME} updates line for universe and multiverse"
-#    cp /etc/apt/sources.list /etc/apt/sources.list.backup
-#    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRIB_CODENAME}-updates universe multiverse" >> /etc/apt/sources.list
-#else
-#    echo "# Already added universe and multiverse ${DISTRIB_CODENAME}-updates line to sources,"
-#fi
-
-### METHOD 2? Add distrib-updates universe multiverse
-#
-# Figure out if this part of the script has been run already
-#if grep -q "${DISTRIB_CODENAME}-updates universe" /etc/apt/sources.list; then
-#    echo "# Already added universe and multiverse ${DISTRIB_CODENAME}-updates line to sources,"
-#else
-#    echo "* Adding ${DISTRIB_CODENAME} updates line for universe and multiverse"
-#    cp /etc/apt/sources.list /etc/apt/sources.list.backup
-#    echo "deb http://us.archive.ubuntu.com/ubuntu/ ${DISTRIB_CODENAME}-updates universe multiverse" >> /etc/apt/sources.list
-#fi
 
 ### Disable and Remove Any Medibuntu Repos
 #
@@ -136,75 +113,62 @@ fi
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
 
+# Make sure we're using 
+if [ $(lsb_release -rs) != '14.04']; then
+    echo "Sorry, only Ubuntu 14.04 is supported."
+    exit 1
+fi
+
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
-
+###################################
 ### Packages for Trusty (14.04) ###
 ###################################
 
 # Add Pepper Flash Player support for Chromium
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
-if [ $(lsb_release -rs) = '14.04' ]; then
-    echo "* Customizing Trusty packages"
-    apt-get -y install pepperflashplugin-nonfree &&
-    update-pepperflashplugin-nonfree --install
-    apt-get -y install fonts-mgopen
+echo "* Customizing Trusty packages"
+apt-get -y install pepperflashplugin-nonfree &&
+update-pepperflashplugin-nonfree --install
+apt-get -y install fonts-mgopen
 
-	# Kubuntu 14.04 Specific Packages
-	if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
-	    echo "* Customizing Trusty-Kubuntu packages."
-	    apt-get -y install software-center
-	    apt-get -y install kdewallpapers
-	    apt-get -y install kubuntu-restricted-extras
-	    apt-get -y autoremove muon muon-updater muon-discover
-	fi
-
-	# Xubuntu 14.04 Specific Packages
-	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
-	    echo "* Customizing Trusty-Xubuntu packages."
-	    apt-get -y install xubuntu-restricted-extras
-	    apt-get -y remove gnumeric* abiword*
-        echo "* Customizing Trusty-Xubuntu settings."
-            apt-get -y install xmlstarlet
-            # Make a system-wide fix so that Audio CDs autoload correctly.
-            xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
-            ### And now do it for the current user.
-            xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
-
-            # Make a system-wide fix so that Audio CDs autoload correctly.
-            xmlstarlet ed -L -u '/channel/property[@name="autoplay-video-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc dvd://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
-            ### And now do it for the current user.
-            xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
-
-            # Make a system-wide fix so that Mac eject key (X86Eject) is mapped to eject (eject -r) function.
-            xmlstarlet ed -L -s '/channel/property[@name="commands"]/property[@name="default"]' -t elem -n propertyTMP -v "" \
-                -i //propertyTMP -t attr -n "name" -v "X86Eject" \
-                -i //propertyTMP -t attr -n "type" -v "string" \
-                -i //propertyTMP -t attr -n "value" -v "eject" \
-                -r //propertyTMP -v property \
-            /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
-            ### And now do it for the current user.
-            xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject"
-	fi
+# Kubuntu 14.04 Specific Packages
+if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+    echo "* Customizing Trusty-Kubuntu packages."
+    apt-get -y install software-center
+    apt-get -y install kdewallpapers
+    apt-get -y install kubuntu-restricted-extras
+    apt-get -y autoremove muon muon-updater muon-discover
 fi
 
-###
-### Packages for Precise (12.04) ###
-####################################
+# Xubuntu 14.04 Specific Packages
+if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+    echo "* Customizing Trusty-Xubuntu packages."
+    apt-get -y install xubuntu-restricted-extras
+    apt-get -y remove gnumeric* abiword*
+    echo "* Customizing Trusty-Xubuntu settings."
+        apt-get -y install xmlstarlet
+        # Make a system-wide fix so that Audio CDs autoload correctly.
+        xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
+        ### And now do it for the current user.
+        xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
 
-if [ $(lsb_release -rs) = '12.04' ]; then
-    echo "* Customizing Precise packages."
-    apt-get -y install ttf-mgopen
+        # Make a system-wide fix so that Audio CDs autoload correctly.
+        xmlstarlet ed -L -u '/channel/property[@name="autoplay-video-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc dvd://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
+        ### And now do it for the current user.
+        xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
 
-	# Xubuntu 12.04 Specific Packages
-	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
-	    echo "* Customizing Precise-Xubuntu packages."
-	    apt-get -y install xubuntu-restricted-extras
-	    apt-get -y remove gnumeric* abiword*
-	fi
+        # Make a system-wide fix so that Mac eject key (X86Eject) is mapped to eject (eject -r) function.
+        xmlstarlet ed -L -s '/channel/property[@name="commands"]/property[@name="default"]' -t elem -n propertyTMP -v "" \
+            -i //propertyTMP -t attr -n "name" -v "X86Eject" \
+            -i //propertyTMP -t attr -n "type" -v "string" \
+            -i //propertyTMP -t attr -n "value" -v "eject" \
+            -r //propertyTMP -v property \
+        /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
+        ### And now do it for the current user.
+        xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject"
 fi
-
 
 ###############
 ### Packages for All Releases
@@ -266,24 +230,15 @@ if [ "$MANUFACTURER" = "Apple Inc." ]; then
 fi
 
 #################################
-# Install and Run sl or nyancat #
+# Install and Run nyancat #
 #################################
 # Ensure installation completed without errors
 
-apt-get -y install sl
-wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
-chmod 755 /usr/local/bin/nyancat
-if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
+apt-get -y install nyancat
+if [ -e "/usr/bin/nyancat" ]; then
 	echo "Installation complete -- relax, and watch this NYAN CAT"; sleep 2
-	/usr/local/bin/nyancat -nsf 37
-else
-  # Using bc instead of test lets us use floating point numbers
-	if (( $(bc <<< "$DISTRIB_RELEASE > 10.04") == 1 )); then
-    		echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
-    		/usr/games/sl
-	else
-    		sl
-	fi
+    # -n: no counter, -s: no titlebar text, -f: run for 34 frames (3 seconds)
+	nyancat -nsf 34
 fi
 
 ##################
