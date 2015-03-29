@@ -2,15 +2,12 @@
 
 ### Simple minded install script for
 ### FreeGeek Chicago by David Eads
-### Updates by Brent Bandegar, Dee Newcum, James Slater, Alex Hanson
+### Updates by Brent Bandegar, Dee Newcum, James Slater, Alex Hanson, Benjamin Mintz
 
-### Available on FreeGeek` Chicago's github Account at http://git.io/Ool_Aw
+### Available on FreeGeek Chicago's github Account at http://git.io/Ool_Aw
 
 ### Import DISTRIB_CODENAME and DISTRIB_RELEASE
 . /etc/lsb-release
-
-### Get the integer part of $DISTRIB_RELEASE. Bash/test can't handle floating-point numbers.
-
 
 echo "################################"
 echo "#  FreeGeek Chicago Installer  #"
@@ -113,14 +110,15 @@ fi
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
 
-# Make sure we're using 
+# Make sure we're using Ubuntu trusty
 if [ $(lsb_release -rs) != '14.04']; then
     echo "Sorry, only Ubuntu 14.04 is supported."
     exit 1
 fi
 
-# Each package should have it's own apt-get line.
-# If a package is not found or broken, the whole apt-get line is terminated.
+# Each package should be on a separate line inside of a heredoc
+# If a package is not found or broken, aptitude continues anyway.
+sudo apt-get -y install aptitude
 
 ###################################
 ### Packages for Trusty (14.04) ###
@@ -131,24 +129,25 @@ fi
 echo "* Customizing Trusty packages"
 apt-get -y install pepperflashplugin-nonfree &&
 update-pepperflashplugin-nonfree --install
-apt-get -y install fonts-mgopen
 
 # Kubuntu 14.04 Specific Packages
 if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
     echo "* Customizing Trusty-Kubuntu packages."
-    apt-get -y install software-center
-    apt-get -y install kdewallpapers
-    apt-get -y install kubuntu-restricted-extras
-    apt-get -y autoremove muon muon-updater muon-discover
+    aptitude -y install <<-EOF
+    software-center
+    kdewallpapers
+    kubuntu-restricted-extras
+EOF
 fi
+apt-get -y autoremove muon muon-updater muon-discover
 
 # Xubuntu 14.04 Specific Packages
 if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
     echo "* Customizing Trusty-Xubuntu packages."
-    apt-get -y install xubuntu-restricted-extras
+    xubuntu-restricted-extras
     apt-get -y remove gnumeric* abiword*
     echo "* Customizing Trusty-Xubuntu settings."
-        apt-get -y install xmlstarlet
+        xmlstarlet
         # Make a system-wide fix so that Audio CDs autoload correctly.
         xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
         ### And now do it for the current user.
@@ -170,42 +169,44 @@ if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok in
         xfconf-query -c xfce4-keyboard-shortcuts -p /commands/default/XF86Eject -n -t string -s "eject"
 fi
 
-# Make sure an office suite is installed
-apt-get -y install libreoffice
+# Using aptitude and a heredoc makes the process TONS faster
+aptitude -y install <<-EOF
+    # Make sure an office suite is installed
+    libreoffice
 
-# Add codecs / plugins that most people want
-apt-get -y install ubuntu-restricted-extras
-apt-get -y install non-free-codecs
-apt-get -y install libdvdcss2
+    # Add codecs / plugins that most people want
+    ubuntu-restricted-extras
+    non-free-codecs
+    libdvdcss2
 
-# Add design / graphics programs
-apt-get -y install gimp
-apt-get -y install krita
-apt-get -y install inkscape
+    # Add design / graphics programs
+    gimp
+    krita
+    inkscape
 
-# Add VLC and mplayer to play all multimedia
-apt-get -y install vlc
-apt-get -y install mplayer
-apt-get -y install totem-mozilla
-# Need to justify installation of mplayer and totem-mozilla
+    # Add VLC and mplayer to play all multimedia
+    vlc
+    mplayer
+    totem-mozilla
+    # Need to justify installation of mplayer and totem-mozilla
 
-# Misc Packages. Need to justify installation of each.
-apt-get -y install gcj-jre
-apt-get -y install ca-certificates
-apt-get -y install chromium-browser
-# Also install Chrome?
-apt-get -y install hardinfo
+    # Misc Packages. Need to justify installation of each.
+    gcj-jre
+    ca-certificates
+    chromium-browser
+    # Also install Chrome?
+    hardinfo
 
-# Add spanish language support
-apt-get -y install language-pack-es
-apt-get -y install language-pack-gnome-es
+    # Add spanish language support
+    language-pack-es
+    language-pack-gnome-es
 
-# Install nonfree firmware for Broadcom wireless cards and TV capture cards
-apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
+    # Install nonfree firmware for Broadcom wireless cards and TV capture cards
+    linux-firmware-nonfree firmware-b43-installer b43-fwcutter
 
-# Install libc6:i386 to fix dependency problems for nyancat:i386
-apt-get -y install libc6:i386
-
+    # Install libc6:i386 to fix dependency problems for nyancat:i386
+    libc6:i386
+EOF
 ###################################
 # Check for Apple as Manufacturer #
 ###################################
