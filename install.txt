@@ -27,7 +27,6 @@ wget -qO /usr/local/bin/install.sh https://raw.github.com/freegeekchicago/fgc-in
 
 # Run install.sh for updates
 echo "## Running install.sh, BYE!"
-# Use bash to fix incompatibilities
-bash /usr/local/bin/install.sh
+sh /usr/local/bin/install.sh
 
 #EOF
