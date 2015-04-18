@@ -265,26 +265,14 @@ if [ "$MANUFACTURER" = "Apple Inc." ]; then
     . /usr/local/bin/apple_ubuntu.sh
 fi
 
-#################################
-# Install and Run sl or nyancat #
-#################################
+######################
+# Install and Run sl #
+######################
 # Ensure installation completed without errors
 
-apt-get -y install sl
-wget -qO /usr/local/bin/nyancat "https://raw.githubusercontent.com/freegeekchicago/fgc-installscript/master/nyancat"
-chmod 755 /usr/local/bin/nyancat
-if [ -e "/usr/local/bin/nyancat" ] && [ -x "/usr/local/bin/nyancat" ]; then
-	echo "Installation complete -- relax, and watch this NYAN CAT"; sleep 2
-	/usr/local/bin/nyancat -nsf 37
-else
-  # Using bc instead of test lets us use floating point numbers
-	if (( $(bc <<< "$DISTRIB_RELEASE > 10.04") == 1 )); then
-    		echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
-    		/usr/games/sl
-	else
-    		sl
-	fi
-fi
+    apt-get -y install sl
+    echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
+    /usr/games/sl
 
 ##################
 # Ask for reboot #
