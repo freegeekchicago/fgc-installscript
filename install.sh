@@ -201,7 +201,7 @@ if [ $(lsb_release -rs) = '12.04' ]; then
 	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
 	    echo "* Customizing Precise-Xubuntu packages."
 	    apt-get -y install xubuntu-restricted-extras
-	    apt-get -y remove gnumeric* abiword*
+	    apt-get -y remove gnumeric* abiword* dragonplayer
 	fi
 fi
 
