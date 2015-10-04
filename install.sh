@@ -143,6 +143,9 @@ apt-get -y update && apt-get -y dist-upgrade
 ### Packages for Trusty (14.04) ###
 ###################################
 
+# Auto-accept the MS Core Fonts EULA
+echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+
 # Add Pepper Flash Player support for Chromium
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
 if [ $(lsb_release -rs) = '14.04' ]; then
