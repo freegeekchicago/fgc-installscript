@@ -37,34 +37,14 @@ touchpad() {
 EndSection' >> /etc/X11/xorg.conf.d/10-synaptics.conf
 }
 
-## MACBOOK2,1
-if [ $MODEL = "MacBook2,1" ]; then
-    echo "You are using an Apple $MODEL."
-    echo "Installing iSight webcam"
-    webcam
-    echo "Installing wireless drivers"
-    wireless
-    echo "Fixing touchpad sensitivity"
-    touchpad
-fi
+echo "You are using an Apple $MODEL."
+echo "Installing iSight webcam"
+webcam
+echo "Installing wireless drivers"
+wireless
 
-## MACBOOK3,1
-if [ $MODEL = "MacBook3,1" ]; then
-    echo "You are using an Apple $MODEL."
-    echo "Installing iSight webcam"
-    webcam
-    echo "Installing wireless drivers"
-    wireless
-fi
-
-
-## MACBOOK4,1
-if [ $MODEL = "MacBook4,1" ]; then
-    echo "You are using an Apple $MODEL."
-    echo "Installing iSight webcam"
-    webcam
-    echo "Installing wireless drivers"
-    wireless
+## Fix touchpad sensitivity for MACBOOK2,1 and MACBOOK4,1
+if [ $MODEL = "MacBook2,1" ] || [ $MODEL = "MacBook4,1" ]; then
     echo "Fixing touchpad sensitivity"
     touchpad
 fi
