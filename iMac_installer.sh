@@ -163,6 +163,7 @@ apt-get -y install gcj-jre
 apt-get -y install ca-certificates
 apt-get -y install chromium-browser
 apt-get -y install hardinfo
+apt-get -y install cheese
 
 echo "Done!"
 echo
