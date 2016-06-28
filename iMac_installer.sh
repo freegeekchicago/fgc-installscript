@@ -173,6 +173,9 @@ echo
 apt-get -y install sl
 echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
 /usr/games/sl
+# nyancat alternative
+# apt-get -y install nyancat
+#nyancat -ns -f 50
 	
 #TODO do these automatically
 echo "###################################################################"
