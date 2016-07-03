@@ -159,7 +159,7 @@ rm ~/.cache/docky/docky.desktop.*.cache
 
 # Other stuff
 apt-get -y install inkscape
-apt-get -y install gcj-jre
+apt-get -y install openjdk-7-jre
 apt-get -y install ca-certificates
 apt-get -y install chromium-browser
 apt-get -y install hardinfo
