@@ -34,7 +34,7 @@ ask() {
     done
 }
 
-function pause(){
+pause() {
    read -p "$*"
 }
 
