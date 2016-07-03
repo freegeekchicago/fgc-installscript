@@ -2,6 +2,9 @@
 ## Basic script to fix, setup, and prettify Linux Mint on iMacs for Freegeek Chicago
 ## By Grant Garrett-Grossman
 
+#TODO Update update manager
+#TODO synaptic 99 problem?
+
 # Function that makes a prompt
 ask() {
     while true; do
