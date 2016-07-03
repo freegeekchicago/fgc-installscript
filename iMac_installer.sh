@@ -34,7 +34,7 @@ ask() {
     done
 }
 
-pause() {
+pause(){
    read -p "$*"
 }
 
@@ -106,18 +106,17 @@ echo
 	
 # Make swappiness reasonable
 swappiness=$( cat /proc/sys/vm/swappiness) # gets current swappiness
-if [ $swappiness -gt 10]
-then
+if [ $swappiness -gt 10]; then
 	echo "Reducing swappiness to 10 ..."
 	echo "# Set swap usage to a more reasonable level" >> /etc/sysctl.conf
 	echo "vm.swappiness=10" >> /etc/sysctl.conf
 	echo "Done!"
 	echo
-fi
 else
 	echo "Swap usage was already set to 10"
 	echo "Was this script already run?"	
 	echo
+fi
 	
 # Disable the flawed hibernate (suspend-to-disk)
 echo "Disabling suspend to disk ..."
