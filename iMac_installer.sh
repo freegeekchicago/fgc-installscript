@@ -70,10 +70,10 @@ echo
 # Make all updates visible
 echo "Making sure all updates are visible ..."
 sed -i -r 's/level1_visible = False/level1_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
-sed -i -r 's/level2_visible = False/level1_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
-sed -i -r 's/level3_visible = False/level1_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
-sed -i -r 's/level4_visible = False/level1_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
-sed -i -r 's/level5_visible = False/level1_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
+sed -i -r 's/level2_visible = False/level2_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
+sed -i -r 's/level3_visible = False/level3_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
+sed -i -r 's/level4_visible = False/level4_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
+sed -i -r 's/level5_visible = False/level5_visible = True/' "/home/$user/.config/linuxmint/mintUpdate.conf"
 echo "Done!"
 echo
 
