@@ -272,13 +272,14 @@ if [ "$MANUFACTURER" = "Apple Inc." ]; then
     . /usr/local/bin/apple_ubuntu.sh
 fi
 
-###########################
-# Install and Run nyancat #
-###########################
+######################
+# Install and Run sl #
+######################
+# Ensure installation completed without errors
 
-apt-get -y install nyancat
-echo "Installation complete -- relax, and watch this NYAN CAT"; sleep 2
-/usr/bin/nyancat -nsf 45 # options: (n)o timer, no titlebar text change, 45 frames ( = 4.02 seconds, close to SL time)
+    apt-get -y install sl
+    echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
+    /usr/games/sl
 
 ##################
 # Ask for reboot #
