@@ -17,10 +17,6 @@ echo "################################"
 echo "#  FreeGeek Chicago Installer  #"
 echo "################################"
 
-# Default sources.list already has:
-# <releasename> main restricted universe multiverse
-# <releasename>-security main restricted universe multiverse
-# <releasename>-updates main restricted
 
 # Function that makes a prompt
 ask() {
@@ -58,6 +54,11 @@ ask() {
 ##################################
 # Edits to /etc/apt/sources.list #
 ##################################
+
+# Default sources.list already has:
+# <releasename> main restricted universe multiverse
+# <releasename>-security main restricted universe multiverse
+# <releasename>-updates main restricted
 
 ### Disable Source Repos
 #
