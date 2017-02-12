@@ -12,6 +12,10 @@ It resides on FreeGeek Chicago's webserver
 at http://freegeekchicago.org/files/install.txt
 - **install.sh** is the script that does the heavy lifting.
 install.txt places install.sh in the /usr/local/bin folder.
+- **iMac_installer.sh** is for iMacs only.
+It customizes Linux Mint installs for them.
+- **apple_ubuntu.sh** fixes apple laptops
+running any Ubuntu derivative.
 
 © 2012-2016 FreeGeekChicago, NFP
 X11-Licensed (see LICENSE.txt)
