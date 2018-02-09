@@ -223,6 +223,7 @@ apt-get -y install language-pack-gnome-es
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
 apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
 
+# Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
 	apt-get -y install cheese
 fi
