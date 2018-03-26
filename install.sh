@@ -114,6 +114,13 @@ fi
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
 
+# On mint, dist-upgrade doesn't always update everything. 
+# If we're on mint, be sure to run the mintupdate-tool just in case
+if [ -x "$(command -v mintupdate-tool)" ]; then
+    echo 'Linux mint install detected. Running mintupdate-tool'
+    mintupdate-tool upgrade -r -k -s -y -l12345 --install-recommends
+fi
+
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
