@@ -116,7 +116,7 @@ apt-get -y update && apt-get -y dist-upgrade
 
 # On mint, dist-upgrade doesn't always update everything. 
 # If we're on mint, be sure to run the mintupdate-tool just in case
-if ! [ -x "$(command -v mintupdate-tool)" ]; then
+if [ -x "$(command -v mintupdate-tool)" ]; then
     echo 'Linux mint install detected. Running mintupdate-tool'
     mintupdate-tool upgrade -r -k -s -y -l12345 --install-recommends
 fi
