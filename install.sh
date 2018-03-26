@@ -215,6 +215,7 @@ apt-get -y install ca-certificates
 apt-get -y install chromium-browser
 # Also install Chrome?
 apt-get -y install hardinfo
+apt-get -y install inxi
 
 # Add spanish language support
 apt-get -y install language-pack-es
