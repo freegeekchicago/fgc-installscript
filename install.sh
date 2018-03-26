@@ -232,7 +232,7 @@ if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exist
 fi
 
 # set up blu-ray playback
-sudo apt-get -y  install vlc libaacs0 libbluray-bdj libbluray1
+apt-get -y  install libaacs0 libbluray-bdj libbluray1
 mkdir -p ~/.config/aacs/
 cd ~/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg
 cd ~
