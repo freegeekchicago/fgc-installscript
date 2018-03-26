@@ -204,10 +204,12 @@ apt-get -y install krita
 apt-get -y install inkscape
 
 # Add VLC and mplayer to play all multimedia
+# Need to justify installation of mplayer and totem-mozilla
 apt-get -y install vlc
 apt-get -y install mplayer
 apt-get -y install totem-mozilla
-# Need to justify installation of mplayer and totem-mozilla
+# Get rid of amarok, since vlc works much better.
+apt-get -y remove amarok
 
 # Misc Packages. Need to justify installation of each.
 apt-get -y install gcj-jre
