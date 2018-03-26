@@ -130,9 +130,9 @@ if [ $(lsb_release -rs) = '18.3' ]; then
     # Volman controls autoplay settings for xfce
     if [ $(dpkg-query -W -f='${Status}' thunar-volman 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
         echo "Setting up autoplay for linux mint"
-        xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
+        xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://%d"
         xfconf-query -c thunar-volman -p /autoplay-audio-cds/enabled -s true
-        xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
+        xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://%d"
         xfconf-query -c thunar-volman -p /autoplay-video-cds/enabled -s true
     fi
 
