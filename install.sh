@@ -124,6 +124,20 @@ fi
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
+### Packages for Linux Mint 18.3 ###
+####################################
+if [ $(lsb_release -rs) = '18.3' ]; then
+    # Volman controls autoplay settings for xfce
+    if [ $(dpkg-query -W -f='${Status}' thunar-volman 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
+        echo "Setting up autoplay for linux mint"
+        xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
+        xfconf-query -c thunar-volman -p /autoplay-audio-cds/enabled -s true
+        xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
+        xfconf-query -c thunar-volman -p /autoplay-video-cds/enabled -s true
+    fi
+
+    # Add additional mint packages here
+fi
 
 ### Packages for Trusty (14.04) ###
 ###################################
