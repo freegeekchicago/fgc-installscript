@@ -23,5 +23,5 @@ It customizes Linux Mint installs for them.
 - <i>apple_ubuntu.sh</i> fixes apple laptops
 running any Ubuntu derivative.
 
-© 2012-2016 FreeGeekChicago, NFP
+© 2012-2018 FreeGeekChicago, NFP
 X11-Licensed (see LICENSE.txt)
