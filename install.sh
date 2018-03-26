@@ -229,8 +229,6 @@ apt-get -y install inkscape
 apt-get -y install vlc
 apt-get -y install mplayer
 apt-get -y install totem-mozilla
-# Get rid of amarok, since vlc works much better.
-apt-get -y remove amarok
 
 # Misc Packages. Need to justify installation of each.
 apt-get -y install gcj-jre
@@ -246,6 +244,9 @@ apt-get -y install language-pack-gnome-es
 
 # Install nonfree firmware for Broadcom wireless cards and TV capture cards
 apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
+
+# Get rid of amarok, since vlc works much better.
+apt-get -y remove amarok
 
 # Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
