@@ -2,7 +2,7 @@
 
 ### Simple minded install script for
 ### FreeGeek Chicago by David Eads
-### Updates by Brent Bandegar, Dee Newcum, James Slater, Alex Hanson
+### Updates by Brent Bandegar, Dee Newcum, James Slater, Alex Hanson, Benjamin Mintz
 
 ### Available on FreeGeek` Chicago's github Account at http://git.io/Ool_Aw
 
