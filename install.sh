@@ -149,8 +149,10 @@ echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select tr
 # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
 if [ $(lsb_release -rs) = '14.04' ]; then
     echo "* Customizing Trusty packages"
-    apt-get -y install pepperflashplugin-nonfree &&
-    update-pepperflashplugin-nonfree --install
+    apt-get -y install pepperflashplugin-nonfree && update-pepperflashplugin-nonfree --install
+    add-apt-repository -y "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
+    apt-get -y update
+    apt-get -y install adobe-flashplugin
     apt-get -y install fonts-mgopen
 
 	# Kubuntu 14.04 Specific Packages
@@ -164,7 +166,7 @@ if [ $(lsb_release -rs) = '14.04' ]; then
 
 	# Xubuntu 14.04 Specific Packages
 	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
-	    echo "* Customizing Trusty-Xubuntu packages."
+	    echo "* Customizing Trusty-Xubuntu packages." 
 	    apt-get -y install xubuntu-restricted-extras
 	    apt-get -y remove gnumeric* abiword*
         echo "* Customizing Trusty-Xubuntu settings."
