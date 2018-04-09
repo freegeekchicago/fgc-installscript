@@ -50,6 +50,35 @@ ask() {
     done
 }
 
+function install_general_programs {
+GENERAL_PROGRAMS=(
+'libreoffice' # Office Suite
+'ubuntu-restricted-extras' #codecs
+'non-free-codecs' #more codecs
+'libdvdcss2' #DVD Playback
+'gimp' #Image Editing Softwarwe
+'krita' #Vector graphics program
+'inkscape' #Vector Graphics Program
+'vlc' #Multi-format media player
+'mplayer' #Movie player
+'totem-mozilla' #media playback extension for Firefox.
+'gcj-jre' #Java
+'ca-certificates' #List of CA certificates (for safer browsing)
+'chromium-browser' # open-source web browser
+'hardinfo' # system information
+'inxi' # system information
+'cdrdao' #CD recording software
+'language-pack-es' #Spanish language support
+'language-pack-gnome-es' #Spanish language support
+'linux-firmware-nonfree' #TV capture card drivers.
+'firmware-b43-installer' #broadcom wireless drivers 
+'b43-fwcutter' #broadcom wireless drivers 
+)
+for program in ${GENERAL_PROGRAMS[*]};
+do
+	apt-get -y install "$program"
+done
+}
 
 ##################################
 # Edits to /etc/apt/sources.list #
@@ -196,40 +225,7 @@ fi
 ###############
 ### Packages for All Releases
 ###############
-# Make sure an office suite is installed
-apt-get -y install libreoffice
-
-# Add codecs / plugins that most people want
-apt-get -y install ubuntu-restricted-extras
-apt-get -y install non-free-codecs
-apt-get -y install libdvdcss2
-
-# Add design / graphics programs
-apt-get -y install gimp
-apt-get -y install krita
-apt-get -y install inkscape
-
-# Add VLC and mplayer to play all multimedia
-# Need to justify installation of mplayer and totem-mozilla
-apt-get -y install vlc
-apt-get -y install mplayer
-apt-get -y install totem-mozilla
-
-# Misc Packages. Need to justify installation of each.
-apt-get -y install gcj-jre
-apt-get -y install ca-certificates
-apt-get -y install chromium-browser
-# Also install Chrome?
-apt-get -y install hardinfo
-apt-get -y install inxi
-apt-get -y install cdrdao
-
-# Add spanish language support
-apt-get -y install language-pack-es
-apt-get -y install language-pack-gnome-es
-
-# Install nonfree firmware for Broadcom wireless cards and TV capture cards
-apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
+install_general_programs
 
 # Get rid of amarok, since vlc works much better.
 apt-get -y remove amarok
