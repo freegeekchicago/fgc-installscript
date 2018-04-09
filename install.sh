@@ -51,7 +51,7 @@ ask() {
 }
 
 install_general_programs() {
-GENERAL_PROGRAMS=(
+GENERAL_PROGRAMS = (
 'libreoffice' # Office Suite
 'ubuntu-restricted-extras' #codecs
 'non-free-codecs' #more codecs
