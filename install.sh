@@ -117,9 +117,11 @@ apt-get -y update && apt-get -y dist-upgrade
 # If we're on mint, be sure to run the mintupdate-tool just in case
 if [ -x "$(command -v mintupdate-tool)" ]; then
     echo 'Linux mint install detected. Running mintupdate-tool'
-    mintupdate-tool upgrade -r -k -s -y -l12345 --install-recommends
+    # If there is an update available for mintupdate-tool itself, it ignores all other arguments and only updates itself.
+    # Running it twice gets around this quirk.
+    mintupdate-tool upgrade -ry  
+    mintupdate-tool upgrade -rksy -l 12345 --install-recommends
 fi
-
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
