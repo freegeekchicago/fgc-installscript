@@ -117,9 +117,11 @@ apt-get -y update && apt-get -y dist-upgrade
 # If we're on mint, be sure to run the mintupdate-tool just in case
 if [ -x "$(command -v mintupdate-tool)" ]; then
     echo 'Linux mint install detected. Running mintupdate-tool'
-    mintupdate-tool upgrade -r -k -s -y -l12345 --install-recommends
+    # If there is an update available for mintupdate-tool itself, it ignores all other arguments and only updates itself.
+    # Running it twice gets around this quirk.
+    mintupdate-tool upgrade -ry  
+    mintupdate-tool upgrade -rksy -l 12345 --install-recommends
 fi
-
 # Each package should have it's own apt-get line.
 # If a package is not found or broken, the whole apt-get line is terminated.
 
@@ -129,10 +131,9 @@ if [ $(lsb_release -rs) = '18.3' ]; then
     # Volman controls autoplay settings for xfce
     if [ $(dpkg-query -W -f='${Status}' thunar-volman 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
         echo "Setting up autoplay for linux mint"
-        xfconf-query -c thunar-volman -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://%d"
-        xfconf-query -c thunar-volman -p /autoplay-audio-cds/enabled -s true
-        xfconf-query -c thunar-volman -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://%d"
-        xfconf-query -c thunar-volman -p /autoplay-video-cds/enabled -s true
+        # Note: A reboot or logout/login is required for these settings to take effect.
+        xfconf-query -c thunar-volman -n -t string -p /autoplay-audio-cds/command -s "/usr/bin/vlc cdda://"
+        xfconf-query -c thunar-volman -n -t string -p /autoplay-video-cds/command -s "/usr/bin/vlc dvd://"
     fi
 
     # Add additional mint packages here
