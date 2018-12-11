@@ -211,7 +211,6 @@ apt-get -y install inkscape
 
 # Add VLC and mplayer to play all multimedia
 # Need to justify installation of mplayer and totem-mozilla
-apt-get -y install vlc
 apt-get -y install mplayer
 apt-get -y install totem-mozilla
 
