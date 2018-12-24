@@ -83,14 +83,14 @@ fi
 #
 # In the future call /usr/share/doc/libdvdread4/install-css.sh
 #
-if [ -e /etc/apt/sources.list.d/videolan.sources.list ]; then
-    echo "# Already added libdvdcss repo, OK."
-else
-    echo "* Adding VideoLAN's libdvdcss repo, OK."
-	echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list.d/videolan.sources.list
+#if [ -e /etc/apt/sources.list.d/videolan.sources.list ]; then
+#    echo "# Already added libdvdcss repo, OK."
+#else
+#    echo "* Adding VideoLAN's libdvdcss repo, OK."
+#	echo 'deb http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list.d/videolan.sources.list
 #       echo 'deb-src http://download.videolan.org/pub/debian/stable/ /' >> /etc/apt/sources.list.d/videolan.sources.list
-	wget -O - http://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - libdvdcss
-fi
+#	wget -O - http://download.videolan.org/pub/debian/videolan-apt.asc|sudo apt-key add - libdvdcss
+#fi
 
 #############################################
 # Edit /etc/update-manager/release-upgrades #
