@@ -103,6 +103,18 @@ else
     sed -i 's/Prompt=lts/Prompt=never/' /etc/update-manager/release-upgrades
 fi
 
+log_pretty() {
+	MSG=$1
+
+	LIGHT_BLUE="1;34"
+	LIGHT_BLUE_FORMAT_STR="\033[${LIGHT_BLUE}m"
+	NO_COLOR_FORMAT_STR="\033[0m"
+	printf "${LIGHT_BLUE_FORMAT_STR}"
+	printf "##############################################\n"
+	printf "%s\n" "$MSG"
+	printf "##############################################\n"
+	printf "${NO_COLOR_FORMAT_STR}"
+}
 
 #######################
 # Add/Remove Packages #
@@ -111,11 +123,12 @@ fi
 ### Update everything
 # We use dist-upgrade to ensure up-to-date kernels are installed
 apt-get -y update && apt-get -y dist-upgrade
+log_pretty "Updating everything"
 
 # On mint, dist-upgrade doesn't always update everything. 
 # If we're on mint, be sure to run the mintupdate-tool just in case
 if [ -x "$(command -v mintupdate-tool)" ]; then
-    echo 'Linux mint install detected. Running mintupdate-tool'
+    log_pretty 'Linux mint install detected. Running mintupdate-tool'
     # If there is an update available for mintupdate-tool itself, it ignores all other arguments and only updates itself.
     # Running it twice gets around this quirk.
     mintupdate-tool upgrade -ry  
@@ -127,6 +140,7 @@ fi
 ### Packages for Linux Mint 18.3 ###
 ####################################
 if [ $(lsb_release -rs) = '18.3' ]; then
+    log_pretty "Mint detected, running additional configuration steps for mint"
     # Volman controls autoplay settings for xfce
     if [ $(dpkg-query -W -f='${Status}' thunar-volman 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
         echo "Setting up autoplay for linux mint"
@@ -235,6 +249,7 @@ apt-get -y remove amarok
 # Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
 	apt-get -y install cheese
+	log_pretty "Webcam detected, installing cheese"
 fi
 
 # set up blu-ray playback
@@ -276,9 +291,9 @@ fi
 ######################
 # Ensure installation completed without errors
 
-    apt-get -y install sl
-    echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
-    /usr/games/sl
+apt install -y sl
+log_pretty "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
+/usr/games/sl
 
 ##################
 # Ask for reboot #
