@@ -79,18 +79,6 @@ else
 fi
 
 
-#############################################
-# Edit /etc/update-manager/release-upgrades #
-#############################################
-
-# Check to see if Source repos are set ON and turn OFF
-if grep -q "Prompt=never" /etc/update-manager/release-upgrades; then
-    echo "# Release Upgrades set to 'never'"
-else
-    echo "* Setting Release Upgrades to 'never'"
-    sed -i 's/Prompt=lts/Prompt=never/' /etc/update-manager/release-upgrades
-fi
-
 log_pretty() {
 	MSG=$1
 
