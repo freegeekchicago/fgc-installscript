@@ -86,9 +86,9 @@ log_pretty() {
 #######################
 
 ### Update everything
-# We use dist-upgrade to ensure up-to-date kernels are installed
-apt-get -y update && apt-get -y dist-upgrade
+# We use full-upgrade to ensure up-to-date kernels are installed
 log_pretty "Updating everything"
+apt update -y && apt full-upgrade -y
 
 # On mint, dist-upgrade doesn't always update everything. 
 # If we're on mint, be sure to run the mintupdate-tool just in case
@@ -99,8 +99,6 @@ if [ -x "$(command -v mintupdate-tool)" ]; then
     mintupdate-tool upgrade -ry  
     mintupdate-tool upgrade -rksy -l 12345 --install-recommends
 fi
-# Each package should have it's own apt-get line.
-# If a package is not found or broken, the whole apt-get line is terminated.
 
 ### Packages for Linux Mint 18.3 ###
 ####################################
@@ -119,36 +117,35 @@ fi
 
 ### Packages for Trusty (14.04) ###
 ###################################
-
-# Auto-accept the MS Core Fonts EULA
-echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
-
-# Add Pepper Flash Player support for Chromium
-# Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
 if [ $(lsb_release -rs) = '14.04' ]; then
+    # Auto-accept the MS Core Fonts EULA
+    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+
     echo "* Customizing Trusty packages"
-    apt-get -y install pepperflashplugin-nonfree && update-pepperflashplugin-nonfree --install
+    # Add Pepper Flash Player support for Chromium
+    # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
+    apt install -y pepperflashplugin-nonfree && update-pepperflashplugin-nonfree --install
     add-apt-repository -y "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
-    apt-get -y update
-    apt-get -y install adobe-flashplugin
-    apt-get -y install fonts-mgopen
+    apt update -y
+    apt install -y adobe-flashplugin
+    apt install -y fonts-mgopen
 
 	# Kubuntu 14.04 Specific Packages
 	if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
 	    echo "* Customizing Trusty-Kubuntu packages."
-	    apt-get -y install software-center
-	    apt-get -y install kdewallpapers
-	    apt-get -y install kubuntu-restricted-extras
-	    apt-get -y autoremove muon muon-updater muon-discover
+	    apt install -y software-center
+	    apt install -y kdewallpapers
+	    apt install -y kubuntu-restricted-extras
+	    apt autoremove -y muon muon-updater muon-discover
 	fi
 
 	# Xubuntu 14.04 Specific Packages
 	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
 	    echo "* Customizing Trusty-Xubuntu packages." 
-	    apt-get -y install xubuntu-restricted-extras
-	    apt-get -y remove gnumeric* abiword*
+	    apt install -y xubuntu-restricted-extras
+	    apt remove -y gnumeric* abiword*
         echo "* Customizing Trusty-Xubuntu settings."
-            apt-get -y install xmlstarlet
+            apt install -y xmlstarlet
             # Make a system-wide fix so that Audio CDs autoload correctly.
             xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
             ### And now do it for the current user.
@@ -213,8 +210,8 @@ apt-get -y remove amarok
 
 # Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
-	apt-get -y install cheese
 	log_pretty "Webcam detected, installing cheese"
+	apt install -y cheese
 fi
 
 # set up blu-ray playback
