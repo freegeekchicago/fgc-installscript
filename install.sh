@@ -176,7 +176,6 @@ apt-get -y install libreoffice
 
 # Add codecs / plugins that most people want
 apt-get -y install ubuntu-restricted-extras
-apt-get -y install non-free-codecs
 apt-get -y install libdvdcss2
 
 # Add design / graphics programs
@@ -184,19 +183,8 @@ apt-get -y install gimp
 apt-get -y install krita
 apt-get -y install inkscape
 
-# Add VLC and mplayer to play all multimedia
-# Need to justify installation of mplayer and totem-mozilla
-apt-get -y install mplayer
-apt-get -y install totem-mozilla
-
 # Misc Packages. Need to justify installation of each.
-apt-get -y install gcj-jre
-apt-get -y install ca-certificates
 apt-get -y install chromium-browser
-# Also install Chrome?
-apt-get -y install hardinfo
-apt-get -y install inxi
-apt-get -y install cdrdao
 
 # Add spanish language support
 apt-get -y install language-pack-es
