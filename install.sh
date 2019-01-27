@@ -168,33 +168,24 @@ if [ $(lsb_release -rs) = '14.04' ]; then
 	fi
 fi
 
-###############
-### Packages for All Releases
-###############
-# Make sure an office suite is installed
-apt-get -y install libreoffice
-
-# Add codecs / plugins that most people want
-apt-get -y install ubuntu-restricted-extras
-apt-get -y install libdvdcss2
-
-# Add design / graphics programs
-apt-get -y install gimp
-apt-get -y install krita
-apt-get -y install inkscape
-
-# Misc Packages. Need to justify installation of each.
-apt-get -y install chromium-browser
-
-# Add spanish language support
-apt-get -y install language-pack-es
-apt-get -y install language-pack-gnome-es
-
-# Install nonfree firmware for Broadcom wireless cards and TV capture cards
-apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
-
-# Get rid of amarok, since vlc works much better.
-apt-get -y remove amarok
+###############################
+### Packages for All Releases #
+###############################
+# firmware-b43-installer is firmware for Broadcom wireless cards and TV capture cards
+# everything that ends in -es is for spanish language support
+log_pretty "Installing common packages for all releases"
+apt install -y \
+	libreoffice \
+	ubuntu-restricted-extras \
+	libdvdcss2 \
+	gimp \
+	krita \
+	inkscape \
+	chromium-browser \
+	language-pack-es \
+	language-pack-gnome-es \
+	firmware-b43-installer \
+	b43-fwcutter \
 
 # Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
