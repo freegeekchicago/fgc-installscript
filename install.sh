@@ -83,7 +83,7 @@ fi
 
 ### Packages for Linux Mint 18.3 ###
 ####################################
-if [ $(lsb_release -rs) = '18.3' ]; then
+if [ $(lsb_release -rs) = '18.3' ] | [ $(lsb_release -rs) = '19.1' ]; then
     log_pretty "Mint detected, running additional configuration steps for mint"
     # Volman controls autoplay settings for xfce
     if [ $(dpkg-query -W -f='${Status}' thunar-volman 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
