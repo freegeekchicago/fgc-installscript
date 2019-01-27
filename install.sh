@@ -225,6 +225,16 @@ if [ "$MANUFACTURER" = "Apple Inc." ]; then
     . /usr/local/bin/apple_ubuntu.sh
 fi
 
+#############
+# Finish up #
+#############
+log_pretty "Running apt update/upgrade again"
+apt update -y && apt full-upgrade -y
+
+log_pretty "Cleaning up"
+apt autoclean -y
+apt autoremove -y
+
 ######################
 # Install and Run sl #
 ######################
@@ -244,5 +254,3 @@ if ask "Do you want to reboot now?" N; then
 else
     exit 0
 fi
-
-## EOF
