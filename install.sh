@@ -193,12 +193,6 @@ if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exist
 	apt install -y cheese
 fi
 
-# set up blu-ray playback
-#apt-get -y  install libaacs0 libbluray-bdj libbluray1
-#mkdir -p ~/.config/aacs/
-#cd ~/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg
-#cd ~
-
 # Fix Chromium Keyring Bug:
 # https://forum.manjaro.org/t/keyring-for-chromium-is-pointless/4328/4
 mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon-old
