@@ -6,11 +6,16 @@
 
 ### Available on FreeGeek` Chicago's github Account at http://git.io/Ool_Aw
 
+### Check if we have root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   echo "Try sudo ./install.txt"
+   exit 1
+fi
 
 echo "################################"
 echo "#  FreeGeek Chicago Installer  #"
 echo "################################"
-
 
 # Function that makes a prompt
 ask() {
