@@ -73,6 +73,8 @@ apt update -y && apt full-upgrade -y
 
 # On mint, dist-upgrade doesn't always update everything. 
 # If we're on mint, be sure to run the mintupdate-tool just in case
+# Note: mintupdate-tool is deprecated at of mint 19 in favor of mintupdate-cli
+# Once we phase out 18.3, we should use mindupdate-cli instead.
 if [ -x "$(command -v mintupdate-tool)" ]; then
     log_pretty 'Linux mint install detected. Running mintupdate-tool'
     # If there is an update available for mintupdate-tool itself, it ignores all other arguments and only updates itself.
