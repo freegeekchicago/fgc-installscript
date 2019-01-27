@@ -6,12 +6,6 @@
 
 ### Available on FreeGeek` Chicago's github Account at http://git.io/Ool_Aw
 
-### Import DISTRIB_CODENAME and DISTRIB_RELEASE
-. /etc/lsb-release
-
-### Get the integer part of $DISTRIB_RELEASE. Bash/test can't handle floating-point numbers.
-#DISTRIB_MAJOR_RELEASE=$(echo "scale=0; $DISTRIB_RELEASE/1" | bc) # but bc can, using redirections!
-
 
 echo "################################"
 echo "#  FreeGeek Chicago Installer  #"
