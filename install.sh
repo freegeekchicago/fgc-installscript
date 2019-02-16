@@ -238,12 +238,6 @@ if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exist
 	apt-get -y install cheese
 fi
 
-# set up blu-ray playback
-#apt-get -y  install libaacs0 libbluray-bdj libbluray1
-#mkdir -p ~/.config/aacs/
-#cd ~/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg
-#cd ~
-
 ###################################
 # Check for Apple as Manufacturer #
 ###################################
