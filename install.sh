@@ -244,11 +244,6 @@ fi
 #cd ~/.config/aacs/ && wget http://vlc-bluray.whoknowsmy.name/files/KEYDB.cfg
 #cd ~
 
-# Fix Chromium Keyring Bug:
-# https://forum.manjaro.org/t/keyring-for-chromium-is-pointless/4328/4
-# mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon-old
-#vkillall gnome-keyring-daemon
-
 ###################################
 # Check for Apple as Manufacturer #
 ###################################
