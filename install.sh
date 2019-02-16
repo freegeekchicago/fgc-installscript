@@ -69,16 +69,6 @@ else
     sed -i 's/deb-src /#deb-src# /' /etc/apt/sources.list
 fi
 
-### Disable and Remove Any Medibuntu Repos
-#
-
-if [ -e /etc/apt/sources.list.d/medibuntu.list ]; then
-    echo "* Removing Medibuntu Repos."
-    rm /etc/apt/sources.list.d/medibuntu*
-else
-    echo "# Already removed Medibuntu's libdvdcss repo."
-fi
-
 ### Enable VideoLAN Repo for libdvdcss
 #
 # In the future call /usr/share/doc/libdvdread4/install-css.sh
