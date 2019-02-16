@@ -192,7 +192,6 @@ apt-get -y install mplayer
 apt-get -y install totem-mozilla
 
 # Misc Packages. Need to justify installation of each.
-apt-get -y install gcj-jre
 apt-get -y install ca-certificates
 apt-get -y install chromium-browser
 # Also install Chrome?
