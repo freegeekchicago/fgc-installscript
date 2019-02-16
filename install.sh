@@ -246,8 +246,8 @@ fi
 
 # Fix Chromium Keyring Bug:
 # https://forum.manjaro.org/t/keyring-for-chromium-is-pointless/4328/4
-mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon-old
-killall gnome-keyring-daemon
+# mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon-old
+#vkillall gnome-keyring-daemon
 
 ###################################
 # Check for Apple as Manufacturer #
