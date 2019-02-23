@@ -176,15 +176,6 @@ if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exist
 	apt install -y cheese
 fi
 
-# Fix Chromium Keyring Bug:
-# https://forum.manjaro.org/t/keyring-for-chromium-is-pointless/4328/4
-
-if [ -f /usr/bin/gnome-keyring-daemon ]; then
-	log_pretty "Fixing gnome keyring bug"
-	mv /usr/bin/gnome-keyring-daemon /usr/bin/gnome-keyring-daemon-old
-	killall gnome-keyring-daemon
-fi
-
 ###################################
 # Check for Apple as Manufacturer #
 ###################################
