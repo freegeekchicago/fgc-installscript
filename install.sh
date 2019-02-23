@@ -6,17 +6,16 @@
 
 ### Available on FreeGeek` Chicago's github Account at http://git.io/Ool_Aw
 
-### Import DISTRIB_CODENAME and DISTRIB_RELEASE
-. /etc/lsb-release
-
-### Get the integer part of $DISTRIB_RELEASE. Bash/test can't handle floating-point numbers.
-#DISTRIB_MAJOR_RELEASE=$(echo "scale=0; $DISTRIB_RELEASE/1" | bc) # but bc can, using redirections!
-
+### Check if we have root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root"
+   echo "Try sudo ./install.txt"
+   exit 1
+fi
 
 echo "################################"
 echo "#  FreeGeek Chicago Installer  #"
 echo "################################"
-
 
 # Function that makes a prompt
 ask() {
@@ -50,61 +49,44 @@ ask() {
     done
 }
 
-##################################
-# Edits to /etc/apt/sources.list #
-##################################
+log_pretty() {
+	MSG=$1
 
-# Default sources.list already has:
-# <releasename> main restricted universe multiverse
-# <releasename>-security main restricted universe multiverse
-# <releasename>-updates main restricted
-
-### Disable Source Repos
-#
-# Check to see if Source repos are set ON and turn OFF
-if grep -q "deb-src#" /etc/apt/sources.list; then
-    echo "# Already disabled source repositories"
-else
-    echo "* Commenting out source repositories -- we don't mirror them locally."
-    sed -i 's/deb-src /#deb-src# /' /etc/apt/sources.list
-fi
-
-#############################################
-# Edit /etc/update-manager/release-upgrades #
-#############################################
-
-# Check to see if Source repos are set ON and turn OFF
-if grep -q "Prompt=never" /etc/update-manager/release-upgrades; then
-    echo "# Release Upgrades set to 'never'"
-else
-    echo "* Setting Release Upgrades to 'never'"
-    sed -i 's/Prompt=lts/Prompt=never/' /etc/update-manager/release-upgrades
-fi
-
+	LIGHT_BLUE="1;34"
+	LIGHT_BLUE_FORMAT_STR="\033[${LIGHT_BLUE}m"
+	NO_COLOR_FORMAT_STR="\033[0m"
+	printf "${LIGHT_BLUE_FORMAT_STR}"
+	printf "##############################################\n"
+	printf "%s\n" "$MSG"
+	printf "##############################################\n"
+	printf "${NO_COLOR_FORMAT_STR}"
+}
 
 #######################
 # Add/Remove Packages #
 #######################
 
 ### Update everything
-# We use dist-upgrade to ensure up-to-date kernels are installed
-apt-get -y update && apt-get -y dist-upgrade
+# We use full-upgrade to ensure up-to-date kernels are installed
+log_pretty "Updating everything"
+apt update -y && apt full-upgrade -y
 
 # On mint, dist-upgrade doesn't always update everything. 
 # If we're on mint, be sure to run the mintupdate-tool just in case
+# Note: mintupdate-tool is deprecated at of mint 19 in favor of mintupdate-cli
+# Once we phase out 18.3, we should use mindupdate-cli instead.
 if [ -x "$(command -v mintupdate-tool)" ]; then
-    echo 'Linux mint install detected. Running mintupdate-tool'
+    log_pretty 'Linux mint install detected. Running mintupdate-tool'
     # If there is an update available for mintupdate-tool itself, it ignores all other arguments and only updates itself.
     # Running it twice gets around this quirk.
     mintupdate-tool upgrade -ry  
     mintupdate-tool upgrade -rksy -l 12345 --install-recommends
 fi
-# Each package should have it's own apt-get line.
-# If a package is not found or broken, the whole apt-get line is terminated.
 
 ### Packages for Linux Mint 18.3 ###
 ####################################
-if [ $(lsb_release -rs) = '18.3' ]; then
+if [ $(lsb_release -rs) = '18.3' ] | [ $(lsb_release -rs) = '19.1' ]; then
+    log_pretty "Mint detected, running additional configuration steps for mint"
     # Volman controls autoplay settings for xfce
     if [ $(dpkg-query -W -f='${Status}' thunar-volman 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
         echo "Setting up autoplay for linux mint"
@@ -118,36 +100,35 @@ fi
 
 ### Packages for Trusty (14.04) ###
 ###################################
-
-# Auto-accept the MS Core Fonts EULA
-echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
-
-# Add Pepper Flash Player support for Chromium
-# Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
 if [ $(lsb_release -rs) = '14.04' ]; then
+    # Auto-accept the MS Core Fonts EULA
+    echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | debconf-set-selections
+
     echo "* Customizing Trusty packages"
-    apt-get -y install pepperflashplugin-nonfree && update-pepperflashplugin-nonfree --install
+    # Add Pepper Flash Player support for Chromium
+    # Note that this temporarily downloads Chrome, and the plugin uses plugin APIs not provided in Firefox
+    apt install -y pepperflashplugin-nonfree && update-pepperflashplugin-nonfree --install
     add-apt-repository -y "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
-    apt-get -y update
-    apt-get -y install adobe-flashplugin
-    apt-get -y install fonts-mgopen
+    apt update -y
+    apt install -y adobe-flashplugin
+    apt install -y fonts-mgopen
 
 	# Kubuntu 14.04 Specific Packages
 	if [ $(dpkg-query -W -f='${Status}' kubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
 	    echo "* Customizing Trusty-Kubuntu packages."
-	    apt-get -y install software-center
-	    apt-get -y install kdewallpapers
-	    apt-get -y install kubuntu-restricted-extras
-	    apt-get -y autoremove muon muon-updater muon-discover
+	    apt install -y software-center
+	    apt install -y kdewallpapers
+	    apt install -y kubuntu-restricted-extras
+	    apt autoremove -y muon muon-updater muon-discover
 	fi
 
 	# Xubuntu 14.04 Specific Packages
 	if [ $(dpkg-query -W -f='${Status}' xubuntu-desktop 2>/dev/null | grep -c "ok installed") -eq 1 ]; then
 	    echo "* Customizing Trusty-Xubuntu packages." 
-	    apt-get -y install xubuntu-restricted-extras
-	    apt-get -y remove gnumeric* abiword*
+	    apt install -y xubuntu-restricted-extras
+	    apt remove -y gnumeric* abiword*
         echo "* Customizing Trusty-Xubuntu settings."
-            apt-get -y install xmlstarlet
+            apt install -y xmlstarlet
             # Make a system-wide fix so that Audio CDs autoload correctly.
             xmlstarlet ed -L -u '/channel/property[@name="autoplay-audio-cds"]/property[@name="command"]/@value' -v '/usr/bin/vlc cdda://' /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml
             ### And now do it for the current user.
@@ -170,48 +151,29 @@ if [ $(lsb_release -rs) = '14.04' ]; then
 	fi
 fi
 
-###############
-### Packages for All Releases
-###############
-# Make sure an office suite is installed
-apt-get -y install libreoffice
-
-# Add codecs / plugins that most people want
-apt-get -y install ubuntu-restricted-extras
-apt-get -y install non-free-codecs
-apt-get -y install libdvdcss2
-
-# Add design / graphics programs
-apt-get -y install gimp
-apt-get -y install krita
-apt-get -y install inkscape
-
-# Add VLC and mplayer to play all multimedia
-# Need to justify installation of mplayer and totem-mozilla
-apt-get -y install mplayer
-apt-get -y install totem-mozilla
-
-# Misc Packages. Need to justify installation of each.
-apt-get -y install ca-certificates
-apt-get -y install chromium-browser
-# Also install Chrome?
-apt-get -y install hardinfo
-apt-get -y install inxi
-apt-get -y install cdrdao
-
-# Add spanish language support
-apt-get -y install language-pack-es
-apt-get -y install language-pack-gnome-es
-
-# Install nonfree firmware for Broadcom wireless cards and TV capture cards
-apt-get -y install linux-firmware-nonfree firmware-b43-installer b43-fwcutter
-
-# Get rid of amarok, since vlc works much better.
-apt-get -y remove amarok
+###############################
+### Packages for All Releases #
+###############################
+# firmware-b43-installer is firmware for Broadcom wireless cards and TV capture cards
+# everything that ends in -es is for spanish language support
+log_pretty "Installing common packages for all releases"
+apt install -y \
+	libreoffice \
+	ubuntu-restricted-extras \
+	libdvdcss2 \
+	gimp \
+	krita \
+	inkscape \
+	chromium-browser \
+	language-pack-es \
+	language-pack-gnome-es \
+	firmware-b43-installer \
+	b43-fwcutter \
 
 # Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
-	apt-get -y install cheese
+	log_pretty "Webcam detected, installing cheese"
+	apt install -y cheese
 fi
 
 ###################################
@@ -237,14 +199,24 @@ if [ "$MANUFACTURER" = "Apple Inc." ]; then
     . /usr/local/bin/apple_ubuntu.sh
 fi
 
+#############
+# Finish up #
+#############
+log_pretty "Running apt update/upgrade again"
+apt update -y && apt full-upgrade -y
+
+log_pretty "Cleaning up"
+apt autoclean -y
+apt autoremove -y
+
 ######################
 # Install and Run sl #
 ######################
 # Ensure installation completed without errors
 
-    apt-get -y install sl
-    echo "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
-    /usr/games/sl
+apt install -y sl
+log_pretty "Installation complete -- relax, and watch this STEAM LOCOMOTIVE"; sleep 2
+/usr/games/sl
 
 ##################
 # Ask for reboot #
@@ -256,5 +228,3 @@ if ask "Do you want to reboot now?" N; then
 else
     exit 0
 fi
-
-## EOF
