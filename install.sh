@@ -163,6 +163,7 @@ apt install -y \
 	libdvdcss2 \
 	gimp \
 	gparted \
+	gsmartcontrol \
 	krita \
 	inkscape \
 	chromium-browser \
