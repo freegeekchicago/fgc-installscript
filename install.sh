@@ -162,6 +162,7 @@ apt install -y \
 	ubuntu-restricted-extras \
 	libdvdcss2 \
 	gimp \
+	gparted \
 	krita \
 	inkscape \
 	chromium-browser \
