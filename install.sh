@@ -156,9 +156,12 @@ fi
 ###############################
 # firmware-b43-installer is firmware for Broadcom wireless cards and TV capture cards
 # everything that ends in -es is for spanish language support
+# vlc is normally installed with mint automatically, but we've had issues where sometimes it's not installed if
+# there's no network connectivity during the install process. We've included it below to solve the issue.
 log_pretty "Installing common packages for all releases"
 apt install -y \
 	libreoffice \
+	vlc \
 	ubuntu-restricted-extras \
 	libdvdcss2 \
 	gimp \
