@@ -174,7 +174,12 @@ apt install -y \
 	language-pack-gnome-es \
 	firmware-b43-installer \
 	b43-fwcutter \
-
+gir1.2-webkit2-4.0 \
+zenity \
+libwebkit2gtk-4.0-37 \
+mintsystem \
+libjavascriptcoregtk-4.0-18 \
+gir1.2-javascriptcoregtk-4.0 \
 # Install cheese if the device has a webcam
 if [ -c /dev/video0 ]; then # check if video0 is a character device (if it exists, it is)
 	log_pretty "Webcam detected, installing cheese"
