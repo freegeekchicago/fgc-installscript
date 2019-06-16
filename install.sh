@@ -178,6 +178,8 @@ gir1.2-webkit2-4.0 \
 zenity \
 libwebkit2gtk-4.0-37 \
 mintsystem \
+mintupdate \
+mint-upgrade-info \
 libjavascriptcoregtk-4.0-18 \
 gir1.2-javascriptcoregtk-4.0 \
 # Install cheese if the device has a webcam
