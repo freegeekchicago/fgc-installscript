@@ -69,7 +69,12 @@ log_pretty() {
 ### Update everything
 # We use full-upgrade to ensure up-to-date kernels are installed
 log_pretty "Updating everything"
-apt update -y && apt full-upgrade -y
+apt-get update
+apt-get dist-upgrade -y
+dpkg --configure -a
+apt-get install -f -y
+apt-get update
+apt-get dist-upgrade -y
 
 # On mint, dist-upgrade doesn't always update everything. 
 # If we're on mint, be sure to run the mintupdate-tool just in case
