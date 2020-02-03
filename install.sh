@@ -218,6 +218,12 @@ log_pretty "Cleaning up"
 apt autoclean -y
 apt autoremove -y
 
+##################################
+# Take a snapshot with Timeshift #
+##################################
+
+timeshift --create --target /dev/sda1/timeshift --comments "After install.txt"
+
 ######################
 # Install and Run sl #
 ######################
