@@ -207,6 +207,11 @@ if [ "$MANUFACTURER" = "Apple Inc." ]; then
     echo "## Running apple_ubuntu.sh, BYE!"
     . /usr/local/bin/apple_ubuntu.sh
 fi
+#####################
+# Reduce swappiness #
+#####################
+
+echo "#Decrease swap usage to a more reasonable level\nvm.swappiness=10" >> /etc/sysctl.conf
 
 #############
 # Finish up #
